@@ -5,10 +5,14 @@ async function getSeries(page) {
   return getSerie.results;
 }
 (async () => {
+  // nombre de page limité
   const pages = 10;
+  // récupération URL
   const url = new URLSearchParams(location.search);
+  console.log(url);
+
   let currentPage = parseInt(url.get("page")) || 1;
-  console.log(currentPage);
+  // génération de la pagination
   let previousPage = $("<a></a>")
     .text("Précédent")
     .attr({ class: "paging", href: `?page=${currentPage - 1}` });
@@ -17,6 +21,9 @@ async function getSeries(page) {
     let linkPage = $("<a></a>")
       .text(i)
       .attr({ class: "paging", href: `?page=${i}` });
+    if (i === currentPage) {
+      linkPage.addClass("active");
+    }
     $("#paging").append(linkPage);
   }
   const nextPage = $("<a></a>")
@@ -30,6 +37,7 @@ async function getSeries(page) {
   }
   $("#paging").append(nextPage);
 
+  // affichage des films en fonction de la page actuelle
   const series = await getSeries(currentPage);
   console.log(series);
   series.forEach((element) => {
