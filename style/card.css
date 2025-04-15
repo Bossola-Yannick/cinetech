@@ -1,0 +1,9 @@
+.card {
+  width: 17%;
+  height: 27rem;
+  border: 4px inset black;
+}
+.card-img {
+  width: 100%;
+  max-height: 100%;
+}
