@@ -2,6 +2,7 @@
   width: 17%;
   height: fit-content;
   border: 4px inset rgba(216, 200, 200, 0.925);
+  cursor: pointer;
 }
 .card-img {
   width: 100%;
