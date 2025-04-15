@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+
+.card {
+    width: fit-content;
+    height: 100%;
+    border: 4px inset black;
+}
+
+.card-img {
+    width: 20rem;
+    height: fit-content;
+    /* max-height: 100%; */
+}
+
+/* _____________________________  */
+/* ____________index____________ */
+/* _____________________________  */
+
+h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #F9D88B;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.562);
+}
+
+.type {
+    margin: 3rem 0 2rem;
+    padding: 0 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+}
+
+.movies-slide {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    overflow: hidden;
+}

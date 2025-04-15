@@ -1,6 +1,6 @@
 .card {
   width: 17%;
-  height: 27rem;
+  height: fit-content;
   border: 4px inset black;
 }
 .card-img {

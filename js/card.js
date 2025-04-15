@@ -1,12 +1,14 @@
-const makingCard = () => {
-  let card = $("<article></article>").addClass("card");
-  let cardImg = $("<img/>").addClass("card-img").attr({
-    src: "../assets/img/lastofus.webp",
-    alt: "The Last Of Us",
-  });
+const makingCard = (img, title, idCard) => {
+  let card = $("<article></article>")
+    .addClass("card")
+    .attr({ value: `${idCard}` });
+  let cardImg = $("<img/>")
+    .addClass("card-img")
+    .attr({
+      src: `https://image.tmdb.org/t/p/w500/${img}`,
+      alt: title,
+    });
   card.append(cardImg);
   $("#container-movies").append(card);
+  $("#container-series").append(card);
 };
-
-makingCard();
-makingCard();

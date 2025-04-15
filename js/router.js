@@ -1,4 +1,3 @@
-const trendingMovies = `https://api.themoviedb.org/3/trending/movie/week?language=fr-FR`;
 const trendingTV = `https://api.themoviedb.org/3/trending/tv/week?language=fr-FR`;
 // let search = `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=false&language=fr-FR&page=1`;
 //! Routes des Series
@@ -29,7 +28,7 @@ $.ajax(settings).done((res) => {
 });
 
 // function d'appel des data de façon dynamique
-const getdata = (url) => {
+const getData = (url) => {
   const settings = {
     async: true,
     crossDomain: true,
@@ -41,9 +40,15 @@ const getdata = (url) => {
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYjJlZDc2YjUyYTk5MThiYTQ4N2MxMjE2OTdjOTg3OCIsIm5iZiI6MTc0NDYxODg4Ny4yNzQsInN1YiI6IjY3ZmNjNTg3NDM3ZjBiODBlZWFjZjI3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kY1g51A7qyCTJLBkQPer1aVZmtwRFvmf5N97DqorA9Y",
     },
   };
-  $.ajax(settings).done((res) => {
-    console.log(res);
+  return new Promise((resolve, reject) => {
+    $.ajax(settings)
+      .done((res) => {
+        resolve(res);
+      })
+      .fail((err) => {
+        reject(err);
+      });
   });
 };
 
-getdata(trendingMovies);
+// getdata(trendingMovies);

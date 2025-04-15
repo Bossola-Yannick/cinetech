@@ -82,6 +82,7 @@ body {
 /** SEARCH-BARRE */
 .searchBarre {
   position: relative;
+  width: 100%;
 }
 .search {
   background-color: rgba(255, 255, 255, 0.432);
@@ -89,6 +90,7 @@ body {
   padding: 0.5rem 3rem;
   font-size: 1.5rem;
   border: none;
+  box-sizing: border-box;
 }
 .search:focus {
   border: none;
