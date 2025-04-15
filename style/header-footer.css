@@ -1,0 +1,123 @@
+body {
+  background-color: rgba(238, 231, 231, 0.589);
+}
+/** HEADER */
+.header-bar {
+  height: 7em;
+  display: flex;
+  background-color: rgba(230, 224, 224, 0.74);
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+}
+
+#container-logo {
+  padding-inline-start: 2rem;
+  width: 30%;
+}
+
+.logo {
+  max-height: 7em;
+}
+
+#container-nav {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+#nav-bar-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-bar-item a {
+  color: black;
+  font-size: 2rem;
+  text-decoration: none;
+  flex: 1;
+}
+
+.burger {
+  display: none;
+}
+
+.burger-logo {
+  width: 2.5rem;
+}
+
+.burger-menu {
+  background-color: rgba(230, 224, 224, 0.74);
+  position: absolute;
+  backdrop-filter: blur(3px);
+}
+/** SEARCH-BARRE */
+.searchBarre {
+  position: relative;
+}
+.search {
+  width: 100%;
+  padding: 0.5rem 3rem;
+  font-size: 1.5rem;
+  border: none;
+}
+.glass {
+  height: 2rem;
+  position: absolute;
+  top: 0.4rem;
+  left: 0.5rem;
+}
+.glass-img {
+  height: 2rem;
+  width: 2rem;
+}
+/** FOOTER */
+footer {
+  min-height: 2rem;
+  text-align: center;
+  background-color: rgba(230, 224, 224, 0.74);
+  margin-top: 2rem;
+}
+.copyrigth {
+  font-size: 1.2rem;
+  padding: 1rem;
+}
+
+.small-james {
+  font-size: 0.6rem;
+}
+
+@media screen and (max-width: 930px) {
+  #container-nav {
+    display: none;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  #nav-bar-list {
+    height: calc(100vh - 5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 1rem;
+    z-index: 10;
+  }
+
+  .nav-bar-item a {
+    color: rgb(43, 43, 43);
+    font-size: 3rem;
+    font-weight: bold;
+    z-index: 10;
+  }
+
+  .burger {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+}
