@@ -1,3 +1,9 @@
+if (!localStorage.getItem("currentPageMovie")) {
+  localStorage.setItem("currentPageMovie", 1);
+} else if (!localStorage.getItem("movieDetail")) {
+  localStorage.setItem("movieDetail", "");
+}
+
 // * Récupération des films
 async function getMovie(page) {
   let Movies = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
@@ -10,7 +16,10 @@ async function getMovie(page) {
   // récupération URL
   const url = new URLSearchParams(location.search);
   let currentPage = parseInt(url.get("page")) || 1;
-
+  // mise en localStorage de la page en cour
+  let stockPage = localStorage.getItem("currentPageMovie");
+  stockPage = currentPage;
+  localStorage.setItem("currentPageMovie", stockPage);
   // génération de la pagination
   let previousPage = $("<a></a>")
     .text("Précédent")
@@ -47,8 +56,11 @@ async function getMovie(page) {
 async function getDetailMovie(id) {
   let detailMovies = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
-  //   console.log(getDetailMovie);
+  console.log(getDetailMovie);
+  let movieClick = localStorage.getItem("movieDetail");
+  movieClick = localStorage.setItem(
+    "movieDetail",
+    JSON.stringify(getDetailMovie)
+  );
+  window.location.href = "./movieDetail.html";
 }
-(async () => {
-  await getDetailMovie(13);
-})();
