@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="../style/reset.css" />
     <link rel="stylesheet" href="../style/style.css" />
     <link rel="stylesheet" href="../style/header-footer.css" />
+    <!-- <link rel="stylesheet" href="../style/card.css" /> -->
+    <link rel="stylesheet" href="../style/styleIndex.css" />
+    <!-- <link rel="stylesheet" href="../style/movies.css" /> -->
     <!--* Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/router.js"></script>
+    <script src="./js/index.js" defer></script>
+    <script src="./js/card.js" defer></script>
   </head>
   <body>
     <header>
@@ -19,25 +24,24 @@
             <img
               src="./assets/img/logo-myCinetech.png"
               alt="logo My Cinetech"
-              class="logo"
-            />
+              class="logo" />
           </a>
         </div>
         <div id="container-nav">
           <nav id="nav-bar">
             <ul id="nav-bar-list">
               <li class="nav-bar-item">
-                <a href="./index.html">Accueil</a>
+                <a class="active" href="./index.html">Accueil</a>
               </li>
 
               <li class="nav-bar-item">
-                <a href="./pages/moviesPage.html">Films</a>
+                <a class="not-active" href="./pages/moviesPage.html">Films</a>
               </li>
               <li class="nav-bar-item">
-                <a href="./pages/seriesPage.html">Séries</a>
+                <a class="not-active" href="./pages/seriesPage.html">Séries</a>
               </li>
               <li class="nav-bar-item">
-                <a href="./pages/favorite.html">Favoris</a>
+                <a class="not-active" href="./pages/favorite.html">Favoris</a>
               </li>
             </ul>
           </nav>
@@ -53,10 +57,30 @@
             class="glass-img"
             alt="loupe de recherche"
         /></span>
-        <input type="text" class="search" placeholder="Rechercher" />
+        <input
+          type="text"
+          id="search"
+          class="search"
+          placeholder="Rechercher" />
       </div>
     </header>
-    <main></main>
+    <main>
+      <section>
+        <div class="type">
+          <h2>Films</h2>
+          <h3>Top Trending</h3>
+        </div>
+
+        <div id="container-movies" class="movies-slide"></div>
+      </section>
+      <!-- <section>
+        <div class="type">
+          <h2>Series</h2>
+          <span>Top Trending</span>
+        </div>
+        <div id="poster"></div>
+      </section> -->
+    </main>
     <footer>
       <h6 class="copyrigth">&#169; BY Orkblan and James</h6>
     </footer>

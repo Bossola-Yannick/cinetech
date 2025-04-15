@@ -1,4 +1,3 @@
-const trendingMovies = `https://api.themoviedb.org/3/trending/movie/week?language=fr-FR`;
 const trendingTV = `https://api.themoviedb.org/3/trending/tv/week?language=fr-FR`;
 // let search = `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=false&language=fr-FR&page=1`;
 //! Routes des Series
@@ -49,3 +48,4 @@ const getData = (url) => {
       });
   });
 };
+
