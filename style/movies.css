@@ -8,3 +8,21 @@
   gap: 1rem;
   justify-content: center;
 }
+#paging {
+  text-align: center;
+}
+.paging {
+  padding: 0.2rem;
+  margin: 0 0.2rem;
+  text-decoration: none;
+  color: rgb(243, 240, 240);
+  font-weight: 700;
+}
+.movie-title,
+.serie-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  padding-block: 2rem;
+  color: azure;
+}
