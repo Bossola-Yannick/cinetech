@@ -5,10 +5,13 @@ async function getMovie(page) {
   return getMovie.results;
 }
 (async () => {
+  // nombre de page limité
   const pages = 10;
+  // récupération URL
   const url = new URLSearchParams(location.search);
   let currentPage = parseInt(url.get("page")) || 1;
-  console.log(currentPage);
+
+  // génération de la pagination
   let previousPage = $("<a></a>")
     .text("Précédent")
     .attr({ class: "paging", href: `?page=${currentPage - 1}` });
@@ -17,6 +20,9 @@ async function getMovie(page) {
     let linkPage = $("<a></a>")
       .text(i)
       .attr({ class: "paging", href: `?page=${i}` });
+    if (i === currentPage) {
+      linkPage.addClass("active");
+    }
     $("#paging").append(linkPage);
   }
   const nextPage = $("<a></a>")
@@ -30,6 +36,7 @@ async function getMovie(page) {
   }
   $("#paging").append(nextPage);
 
+  // affichage des films en fonction de la page actuelle
   const movies = await getMovie(currentPage);
   movies.forEach((element) => {
     makingCard(element.poster_path, element.title, element.id);

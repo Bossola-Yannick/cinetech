@@ -18,6 +18,13 @@
   color: rgb(243, 240, 240);
   font-weight: 700;
 }
+.paging:hover {
+  font-size: 1.3rem;
+}
+.active {
+  font-size: 1.3rem;
+  color: red;
+}
 .movie-title,
 .serie-title {
   text-align: center;
