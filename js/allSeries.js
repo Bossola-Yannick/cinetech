@@ -1,3 +1,10 @@
+if (!localStorage.getItem("currentPageSerie")) {
+  localStorage.setItem("currentPageSerie", 1);
+}
+if (!localStorage.getItem("serieDetail")) {
+  localStorage.setItem("serieDetail", "");
+}
+
 // * Récupération des films
 async function getSeries(page) {
   let Series = `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
@@ -9,9 +16,11 @@ async function getSeries(page) {
   const pages = 10;
   // récupération URL
   const url = new URLSearchParams(location.search);
-  console.log(url);
-
   let currentPage = parseInt(url.get("page")) || 1;
+  // mise en localStorage de la page en cour
+  let stockPage = localStorage.getItem("currentPageSerie");
+  stockPage = currentPage;
+  localStorage.setItem("currentPageSerie", stockPage);
   // génération de la pagination
   let previousPage = $("<a></a>")
     .text("Précédent")
@@ -50,7 +59,10 @@ async function getDetailSerie(id) {
   let detailSeries = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`;
   const getDetailSerie = await getData(detailSeries);
   console.log(getDetailSerie);
+  let movieClick = localStorage.getItem("serieDetail");
+  movieClick = localStorage.setItem(
+    "serieDetail",
+    JSON.stringify(getDetailSerie)
+  );
+  window.location.href = "./serieDetail.html";
 }
-(async () => {
-  await getDetailSerie(13);
-})();

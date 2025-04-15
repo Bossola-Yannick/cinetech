@@ -14,6 +14,7 @@
     <script src="../js/router.js" defer></script>
     <script src="../js/allMovies.js" defer></script>
     <script src="../js/card.js" defer></script>
+    <script src="../js/clickEvent.js" defer></script>
   </head>
   <body>
     <header>
@@ -31,17 +32,16 @@
           <nav id="nav-bar">
             <ul id="nav-bar-list">
               <li class="nav-bar-item">
-                <a href="../index.html">Accueil</a>
-              </li>
-
-              <li class="nav-bar-item">
-                <a href="./moviesPage.html">Films</a>
+                <a class="not-active" href="../index.html">Accueil</a>
               </li>
               <li class="nav-bar-item">
-                <a href="./seriesPage.html">Séries</a>
+                <a class="active" href="./moviesPage.html">Films</a>
               </li>
               <li class="nav-bar-item">
-                <a href="./favorite.html">Favoris</a>
+                <a class="not-active" href="./seriesPage.html">Séries</a>
+              </li>
+              <li class="nav-bar-item">
+                <a class="not-active" href="./favorite.html">Favoris</a>
               </li>
             </ul>
           </nav>
