@@ -1,7 +1,11 @@
 if (!localStorage.getItem("currentPageMovie")) {
   localStorage.setItem("currentPageMovie", 1);
-} else if (!localStorage.getItem("movieDetail")) {
-  localStorage.setItem("movieDetail", "");
+}
+if (!localStorage.getItem("detail")) {
+  localStorage.setItem("detail", "");
+}
+if (!localStorage.getItem("similar")) {
+  localStorage.setItem("similar", "");
 }
 
 // * Récupération des films
@@ -56,11 +60,22 @@ async function getMovie(page) {
 async function getDetailMovie(id) {
   let detailMovies = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
-  console.log(getDetailMovie);
-  let movieClick = localStorage.getItem("movieDetail");
-  movieClick = localStorage.setItem(
-    "movieDetail",
-    JSON.stringify(getDetailMovie)
+  let movieClick = localStorage.getItem("detail");
+  movieClick = localStorage.setItem("detail", JSON.stringify(getDetailMovie));
+  let similarMovies = `https://api.themoviedb.org/3/movie/${id}/similar?language=fr-FR&page=1`;
+  const getSimilarMovie = await getData(similarMovies);
+  let similarClick = localStorage.getItem("similar");
+  similarClick = localStorage.setItem(
+    "similar",
+    JSON.stringify(getSimilarMovie.results)
   );
-  window.location.href = "./movieDetail.html";
+  window.location.href = "./detail.html";
 }
+
+//* gestion du click sur un film
+$("body").on("click", ".card", function () {
+  (async () => {
+    let idCard = $(this).attr("value");
+    getDetailMovie(idCard);
+  })();
+});
