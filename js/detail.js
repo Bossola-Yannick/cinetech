@@ -3,12 +3,15 @@ let similarTitle = JSON.parse(localStorage.getItem("similar"));
 console.log(similarTitle);
 console.log(myClickDetail);
 let main = $("main");
+// titre du film ou série
 let titleMovieDetail = $("<h1></h1>")
   .addClass("movie-title")
   .text(`${myClickDetail.title}`);
 main.append(titleMovieDetail);
+// mise en place du container
 let container = $("<section></section>").addClass("container");
 main.append(container);
+// mise en place du container de l'affiche
 let posterMovieContainer = $("<div></div>").addClass("container-poster");
 let poster = $("<img/>")
   .attr({
@@ -18,11 +21,23 @@ let poster = $("<img/>")
   .addClass("poster");
 posterMovieContainer.append(poster);
 container.append(posterMovieContainer);
+// mise en place du container des détail
 let containerDetail = $("<div></div>").addClass("container-detail");
+// mise en place zone favoris et note
+let containerFavNote = $("<div></div>").addClass("container-favorite-note");
+// mise en place du résumé
 let resumeTitle = $("<h3></h3>").addClass("resume-title").text("Résumé :");
 let resumeText = $("<p></p>")
   .addClass("resume-text")
   .text(`${myClickDetail.overview}`);
+// mise en place favoris ou pas favoris
+let favoriteBox = $("<div></div>").addClass("favorite-box no-favorite");
+let favoriteImg = $("<img/>")
+  .attr({ src: "../assets/img/no-favorite.png" })
+  .addClass("favorite-image");
+favoriteBox.append(favoriteImg);
+containerFavNote.append(favoriteBox);
+// mise en place de la note
 let noteTitle = $("<h3></h3>").addClass("note-title").text("Note :");
 let noteBox = $("<div></div>").addClass("box-stars");
 noteBox.append(noteTitle);
@@ -34,7 +49,8 @@ for (let i = 0; i < 5; i++) {
   noteBoxStars.append(noteStar);
   noteBox.append(noteBoxStars);
 }
-containerDetail.append(noteBox);
+containerFavNote.append(noteBox);
+containerDetail.append(containerFavNote);
 containerDetail.append(resumeTitle);
 containerDetail.append(resumeText);
 container.append(containerDetail);
@@ -63,7 +79,10 @@ if (note >= 9) {
 }
 
 // mise en place des similaire
-
+let titleSimilar = $("<h3></h3>")
+  .addClass("resume-title")
+  .text("Titre similaire :");
+containerDetail.append(titleSimilar);
 let allSimilarBox = $("<div></div>").addClass("similar-box");
 for (let i = 0; i < 5; i++) {
   let similarBox = $("<div></div>").addClass("similar");
@@ -88,11 +107,13 @@ $("body").on("click", ".similar-poster", function () {
 });
 // * Récupération des détail d'un films
 async function getDetailMovie(id) {
-  let detailMovies = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
+  let type = localStorage.getItem("type");
+
+  let detailMovies = `https://api.themoviedb.org/3/${type}/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
   let movieClick = localStorage.getItem("detail");
   movieClick = localStorage.setItem("detail", JSON.stringify(getDetailMovie));
-  let similarMovies = `https://api.themoviedb.org/3/movie/${id}/similar?language=fr-FR&page=1`;
+  let similarMovies = `https://api.themoviedb.org/3/${type}/${id}/similar?language=fr-FR&page=1`;
   const getSimilarMovie = await getData(similarMovies);
   let similarClick = localStorage.getItem("similar");
   similarClick = localStorage.setItem(
@@ -101,3 +122,28 @@ async function getDetailMovie(id) {
   );
   window.location.href = "./detail.html";
 }
+
+// * Mise et retrait en favoris
+let favorite = [];
+const addFavorite = () => {
+  $(".favorite-box").removeClass("no-favorite").addClass("favorite");
+  $(".favorite-image").attr({ src: "../assets/img/favorite.png" });
+  favorite = JSON.parse(localStorage.getItem("favorite")) || [];
+  favorite.push(myClickDetail);
+  localStorage.setItem("favorite", JSON.stringify(favorite));
+};
+const removeFavorite = () => {
+  $(".favorite-box").removeClass("favorite").addClass("no-favorite");
+  $(".favorite-image").attr({ src: "../assets/img/no-favorite.png" });
+  favorite = JSON.parse(localStorage.getItem("favorite")) || [];
+  favorite = favorite.filter((u) => u.id !== myClickDetail.id);
+  localStorage.setItem("favorite", JSON.stringify(favorite));
+};
+
+$("body").on("click", ".favorite-box", function () {
+  if ($(".favorite-box").hasClass("no-favorite")) {
+    addFavorite();
+  } else if ($(".favorite-box").hasClass("favorite")) {
+    removeFavorite();
+  }
+});

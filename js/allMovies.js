@@ -1,3 +1,4 @@
+//! initialisation des localStorage à mettre dans l'index.js
 if (!localStorage.getItem("currentPageMovie")) {
   localStorage.setItem("currentPageMovie", 1);
 }
@@ -6,6 +7,12 @@ if (!localStorage.getItem("detail")) {
 }
 if (!localStorage.getItem("similar")) {
   localStorage.setItem("similar", "");
+}
+if (!localStorage.getItem("type")) {
+  localStorage.setItem("type", "");
+}
+if (!localStorage.getItem("favorite")) {
+  localStorage.setItem("favorite", []);
 }
 
 // * Récupération des films
@@ -69,6 +76,8 @@ async function getDetailMovie(id) {
     "similar",
     JSON.stringify(getSimilarMovie.results)
   );
+  let type = localStorage.getItem("type");
+  type = localStorage.setItem("type", "movie");
   window.location.href = "./detail.html";
 }
 
