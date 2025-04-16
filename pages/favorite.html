@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="../style/reset.css" />
     <link rel="stylesheet" href="../style/style.css" />
     <link rel="stylesheet" href="../style/header-footer.css" />
+    <link rel="stylesheet" href="../style/card.css" />
+    <link rel="stylesheet" href="../style/movies.css" />
     <!--* Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../js/router.js" defer></script>
+    <script src="../js/card.js" defer></script>
+    <script src="../js/favorite.js" defer></script>
   </head>
   <body>
     <header>
@@ -54,7 +59,12 @@
         <input type="text" class="search" placeholder="Rechercher" />
       </div>
     </header>
-    <main></main>
+    <main>
+      <h1 class="movie-title">Mes Favoris</h1>
+      <section id="container-movies">
+        <!-- Insertion des Card ICI -->
+      </section>
+    </main>
     <footer>
       <h6 class="copyrigth">&#169; BY Orkblan and James</h6>
     </footer>

@@ -58,6 +58,7 @@
 .favorite-box {
   width: 4rem;
   height: 4rem;
+  cursor: pointer;
 }
 .favorite-image {
   width: 100%;

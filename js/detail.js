@@ -1,5 +1,7 @@
 let myClickDetail = JSON.parse(localStorage.getItem("detail"));
 let similarTitle = JSON.parse(localStorage.getItem("similar"));
+let inFavorite = JSON.parse(localStorage.getItem("favorite"));
+let type = localStorage.getItem("type");
 console.log(similarTitle);
 console.log(myClickDetail);
 let main = $("main");
@@ -107,8 +109,6 @@ $("body").on("click", ".similar-poster", function () {
 });
 // * Récupération des détail d'un films
 async function getDetailMovie(id) {
-  let type = localStorage.getItem("type");
-
   let detailMovies = `https://api.themoviedb.org/3/${type}/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
   let movieClick = localStorage.getItem("detail");
@@ -139,6 +139,12 @@ const removeFavorite = () => {
   favorite = favorite.filter((u) => u.id !== myClickDetail.id);
   localStorage.setItem("favorite", JSON.stringify(favorite));
 };
+
+for (let favorite of inFavorite) {
+  if (favorite.id === myClickDetail.id) {
+    $(".favorite-image").attr({ src: "../assets/img/favorite.png" });
+  }
+}
 
 $("body").on("click", ".favorite-box", function () {
   if ($(".favorite-box").hasClass("no-favorite")) {
