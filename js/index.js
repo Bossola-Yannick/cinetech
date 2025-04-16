@@ -76,7 +76,6 @@ async function getTrendingSeries() {
 
     const serieLists = document.getElementById("container-series");
     const serieLength = serieLists.querySelectorAll("article").length;
-    console.log(serieLength);
     const ratio = Math.floor(window.innerWidth / 302);
 
     let serieRatio = serieLength % ratio;
