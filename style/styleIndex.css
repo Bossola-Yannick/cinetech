@@ -25,14 +25,15 @@ h3 {
 }
 
 .type {
-    margin: 3rem 0 2rem;
+    margin: 3rem 0 0;
     padding: 0 2rem;
     display: flex;
     align-items: baseline;
     gap: 0.7rem;
 }
 
-.movies {
+.movies,
+.series {
     overflow: hidden;
     position: relative;
     padding: 2rem 0;
@@ -40,7 +41,9 @@ h3 {
 }
 
 .movies::before,
-.movies::after {
+.movies::after,
+.series::before,
+.series::after {
     position: absolute;
     top: 0;
     width: 15%;
@@ -48,19 +51,21 @@ h3 {
     content: "";
     z-index: 2;
 }
-.movies::before {
+.movies::before,
+.series::before {
     left: 0;
     background: linear-gradient(to left, #30303000, #303030);
 }
-.movies::after {
+.movies::after,
+.series::after {
     right: 0;
     background: linear-gradient(to right, #30303000, #303030);
 }
 
-.movies-slide {
+.slide {
     width: calc(100% - 2rem);
     height: 25rem;
-    margin-left: 2rem;
+    margin: 0 4rem;
     display: flex;
     flex-wrap: nowrap;
     gap: 2rem;
@@ -86,6 +91,7 @@ h3 {
 .arrows-left img {
     width: 2.5rem;
     height: 2.5rem;
+    opacity: 0.6;
 }
 
 .arrows-left {
