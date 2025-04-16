@@ -8,9 +8,17 @@ async function getSearch(searchBar) {
   if (data && data.results) {
     divSearchResult.innerHTML = "";
     const dataMax = data.results.slice(0, 5);
+
+    // création div pour chaque resultat
     dataMax.forEach((result) => {
       const divResult = document.createElement("div");
       divResult.classList.add("results");
+      divResult.setAttribute("value", result.id);
+      if (result.name) {
+        divResult.setAttribute("type", "tv");
+      } else if (result.title) {
+        divResult.setAttribute("type", "movie");
+      }
       const imgPoster = document.createElement("img");
       if (result.poster_path) {
         imgPoster.setAttribute(
@@ -35,6 +43,11 @@ async function getSearch(searchBar) {
       divResult.appendChild(imgPoster);
       divResult.appendChild(pResult);
       divSearchResult.appendChild(divResult);
+
+      divResult.addEventListener("click", () => {
+        const type = divResult.getAttribute("type");
+        getDetailMovie(result.id, type);
+      });
     });
   }
 }
