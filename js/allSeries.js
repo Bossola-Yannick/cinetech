@@ -1,8 +1,8 @@
 if (!localStorage.getItem("currentPageSerie")) {
   localStorage.setItem("currentPageSerie", 1);
 }
-if (!localStorage.getItem("serieDetail")) {
-  localStorage.setItem("serieDetail", "");
+if (!localStorage.getItem("detail")) {
+  localStorage.setItem("detail", "");
 }
 
 // * Récupération des films
@@ -54,15 +54,12 @@ async function getSeries(page) {
   });
 })();
 
-// * Récupération des détail d'un films
+// * Récupération des détail d'une série
 async function getDetailSerie(id) {
   let detailSeries = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`;
   const getDetailSerie = await getData(detailSeries);
   console.log(getDetailSerie);
-  let movieClick = localStorage.getItem("serieDetail");
-  movieClick = localStorage.setItem(
-    "serieDetail",
-    JSON.stringify(getDetailSerie)
-  );
-  window.location.href = "./serieDetail.html";
+  let serieClick = localStorage.getItem("detail");
+  serieClick = localStorage.setItem("detail", JSON.stringify(getDetailSerie));
+  window.location.href = "./detail.html";
 }
