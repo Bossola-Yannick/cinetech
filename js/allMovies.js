@@ -4,13 +4,14 @@ if (!localStorage.getItem("currentPageMovie")) {
 if (!localStorage.getItem("detail")) {
   localStorage.setItem("detail", "");
 }
+if (!localStorage.getItem("similar")) {
+  localStorage.setItem("similar", "");
+}
 
 // * Récupération des films
 async function getMovie(page) {
   let Movies = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
   const getMovie = await getData(Movies);
-  console.log(getMovie);
-
   return getMovie.results;
 }
 (async () => {
@@ -59,8 +60,22 @@ async function getMovie(page) {
 async function getDetailMovie(id) {
   let detailMovies = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
-  console.log(getDetailMovie);
   let movieClick = localStorage.getItem("detail");
   movieClick = localStorage.setItem("detail", JSON.stringify(getDetailMovie));
+  let similarMovies = `https://api.themoviedb.org/3/movie/${id}/similar?language=fr-FR&page=1`;
+  const getSimilarMovie = await getData(similarMovies);
+  let similarClick = localStorage.getItem("similar");
+  similarClick = localStorage.setItem(
+    "similar",
+    JSON.stringify(getSimilarMovie.results)
+  );
   window.location.href = "./detail.html";
 }
+
+//* gestion du click sur un film
+$("body").on("click", ".card", function () {
+  (async () => {
+    let idCard = $(this).attr("value");
+    getDetailMovie(idCard);
+  })();
+});

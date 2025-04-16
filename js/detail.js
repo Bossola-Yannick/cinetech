@@ -1,9 +1,11 @@
 let myClickDetail = JSON.parse(localStorage.getItem("detail"));
+let similarTitle = JSON.parse(localStorage.getItem("similar"));
+console.log(similarTitle);
 console.log(myClickDetail);
 let main = $("main");
 let titleMovieDetail = $("<h1></h1>")
   .addClass("movie-title")
-  .text(`Film : ${myClickDetail.title}`);
+  .text(`${myClickDetail.title}`);
 main.append(titleMovieDetail);
 let container = $("<section></section>").addClass("container");
 main.append(container);
@@ -60,14 +62,42 @@ if (note >= 9) {
   thisStar.attr({ src: "../assets/img/stars-gold.png" });
 }
 
-// * Récupération des résultat similaire
-let movieId = myClickDetail.id;
-async function getSimilarMovie(idMovie) {
-  let similarMovies = `https://api.themoviedb.org/3/movie/${idMovie}/similar?language=fr-FR&page=1`;
-  const getDetailMovie = await getData(similarMovies);
-  return getDetailMovie;
+// mise en place des similaire
+
+let allSimilarBox = $("<div></div>").addClass("similar-box");
+for (let i = 0; i < 5; i++) {
+  let similarBox = $("<div></div>").addClass("similar");
+  let poster = similarTitle[i].poster_path;
+  let similarImg = $("<img/>")
+    .attr({
+      src: `https://image.tmdb.org/t/p/w500/${poster}`,
+      alt: `${similarTitle[i].title}`,
+      value: `${similarTitle[i].id}`,
+    })
+    .addClass("similar-poster");
+  similarBox.append(similarImg);
+  allSimilarBox.append(similarBox);
 }
-(async () => {
-  const similar = await getSimilarMovie(movieId);
-  console.log(similar);
-})();
+containerDetail.append(allSimilarBox);
+
+$("body").on("click", ".similar-poster", function () {
+  (async () => {
+    let idCard = $(this).attr("value");
+    getDetailMovie(idCard);
+  })();
+});
+// * Récupération des détail d'un films
+async function getDetailMovie(id) {
+  let detailMovies = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR`;
+  const getDetailMovie = await getData(detailMovies);
+  let movieClick = localStorage.getItem("detail");
+  movieClick = localStorage.setItem("detail", JSON.stringify(getDetailMovie));
+  let similarMovies = `https://api.themoviedb.org/3/movie/${id}/similar?language=fr-FR&page=1`;
+  const getSimilarMovie = await getData(similarMovies);
+  let similarClick = localStorage.getItem("similar");
+  similarClick = localStorage.setItem(
+    "similar",
+    JSON.stringify(getSimilarMovie.results)
+  );
+  window.location.href = "./detail.html";
+}
