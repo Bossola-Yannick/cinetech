@@ -4,7 +4,7 @@ async function getTrendingMovies() {
 
   if (data && data.results) {
     data.results.forEach((movie) => {
-      makingCard(movie.poster_path, movie.title, movie.id, "movies");
+      makingCard(movie.poster_path, movie.title, movie.id, "movie");
     });
 
     const movieLists = document.getElementById("container-movies");
@@ -15,11 +15,19 @@ async function getTrendingMovies() {
     const moviesCopy = data.results.slice(0, ratio - movieRatio);
     if (movieRatio !== 0) {
       moviesCopy.forEach((copy) => {
-        makingCard(copy.poster_path, copy.title, copy.id, "movies");
+        makingCard(copy.poster_path, copy.title, copy.id, "movie");
       });
     }
 
     const newLength = movieLists.querySelectorAll("article").length;
+    const newMovieList = movieLists.querySelectorAll("article");
+    newMovieList.forEach((movie) => {
+      movie.addEventListener("click", () => {
+        const type = movie.getAttribute("type");
+        const id = movie.getAttribute("value");
+        getDetailMovie(id, type);
+      });
+    });
     let click = 0;
 
     const rightArrow = document.querySelector(".arrows-right.movies-arrow");
@@ -71,7 +79,7 @@ async function getTrendingSeries() {
 
   if (data && data.results) {
     data.results.forEach((serie) => {
-      makingCard(serie.poster_path, serie.title, serie.id, "series");
+      makingCard(serie.poster_path, serie.title, serie.id, "tv");
     });
 
     const serieLists = document.getElementById("container-series");
@@ -82,13 +90,24 @@ async function getTrendingSeries() {
     const seriesCopy = data.results.slice(0, ratio - serieRatio);
     if (serieRatio !== 0) {
       seriesCopy.forEach((copy) => {
-        makingCard(copy.poster_path, copy.title, copy.id, "series");
+        makingCard(copy.poster_path, copy.title, copy.id, "tv");
       });
     }
 
     const newLength = serieLists.querySelectorAll("article").length;
-    let click = 0;
 
+    // Evenement click
+    const newSerieList = serieLists.querySelectorAll("article");
+    newSerieList.forEach((serie) => {
+      serie.addEventListener("click", () => {
+        const type = serie.getAttribute("type");
+        const id = serie.getAttribute("value");
+        getDetailMovie(id, type);
+      });
+    });
+
+    // Evenements slide
+    let click = 0;
     const rightArrow = document.querySelector(".arrows-right.series-arrow");
     const leftArrow = document.querySelector(".arrows-left.series-arrow");
 
