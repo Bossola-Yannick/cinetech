@@ -1,10 +1,13 @@
+//! initialisation des localStorage à mettre dans l'index.js
 if (!localStorage.getItem("currentPageSerie")) {
   localStorage.setItem("currentPageSerie", 1);
 }
 if (!localStorage.getItem("detail")) {
   localStorage.setItem("detail", "");
 }
-
+if (!localStorage.getItem("type")) {
+  localStorage.setItem("type", "");
+}
 // * Récupération des films
 async function getSeries(page) {
   let Series = `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
@@ -58,9 +61,17 @@ async function getSeries(page) {
 async function getDetailSerie(id) {
   let detailSeries = `https://api.themoviedb.org/3/tv/${id}?language=fr-FR`;
   const getDetailSerie = await getData(detailSeries);
-  console.log(getDetailSerie);
   let serieClick = localStorage.getItem("detail");
   serieClick = localStorage.setItem("detail", JSON.stringify(getDetailSerie));
+  let similarSerie = `https://api.themoviedb.org/3/tv/${id}/similar?language=fr-FR&page=1`;
+  const getSimilarSerie = await getData(similarSerie);
+  let similarClick = localStorage.getItem("similar");
+  similarClick = localStorage.setItem(
+    "similar",
+    JSON.stringify(getSimilarSerie.results)
+  );
+  let type = localStorage.getItem("type");
+  type = localStorage.setItem("type", "tv");
   window.location.href = "./detail.html";
 }
 //* gestion du click sur une serie
