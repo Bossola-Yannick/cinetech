@@ -83,6 +83,7 @@ body {
 .searchBarre {
   position: relative;
   width: 100%;
+  position: relative
 }
 .search {
   background-color: rgba(255, 255, 255, 0.432);
@@ -91,6 +92,7 @@ body {
   font-size: 1.5rem;
   border: none;
   box-sizing: border-box;
+  
 }
 .search:focus {
   border: none;
@@ -109,6 +111,26 @@ body {
   height: 2rem;
   width: 2rem;
 }
+/* resultats recherche */
+.search-result {
+  width: 100%;
+  position: absolute;
+  z-index: 5;
+}
+.results {
+  background-color: #898989df;
+  padding: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  cursor: pointer;
+  backdrop-filter: blur(1px);
+}
+.results img {
+  width: 2rem;
+}
+
 /** FOOTER */
 footer {
   background-color: rgb(31, 31, 31);

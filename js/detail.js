@@ -108,7 +108,7 @@ $("body").on("click", ".similar-poster", function () {
   })();
 });
 // * Récupération des détail d'un films
-async function getDetailMovie(id) {
+async function getDetailMovie(id, type) {
   let detailMovies = `https://api.themoviedb.org/3/${type}/${id}?language=fr-FR`;
   const getDetailMovie = await getData(detailMovies);
   let movieClick = localStorage.getItem("detail");
@@ -120,7 +120,7 @@ async function getDetailMovie(id) {
     "similar",
     JSON.stringify(getSimilarMovie.results)
   );
-  window.location.href = "./detail.html";
+  window.location.href = "../pages/detail.html";
 }
 
 // * Mise et retrait en favoris

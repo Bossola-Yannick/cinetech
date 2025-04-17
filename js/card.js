@@ -1,7 +1,7 @@
 const makingCard = (img, title, idCard, type) => {
   let card = $("<article></article>")
     .addClass("card")
-    .attr({ value: `${idCard}` });
+    .attr({ value: `${idCard}`, type: `${type}` });
   let cardImg = $("<img/>")
     .addClass("card-img")
     .attr({
@@ -10,9 +10,9 @@ const makingCard = (img, title, idCard, type) => {
     });
   card.append(cardImg);
 
-  if (type === "movies") {
+  if (type === "movie") {
     $("#container-movies").append(card);
-  } else if (type === "series") {
+  } else if (type === "tv") {
     $("#container-series").append(card);
   }
 };

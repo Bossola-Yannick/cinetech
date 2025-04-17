@@ -13,8 +13,10 @@
     <!--* Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/router.js"></script>
-    <script src="./js/index.js" defer></script>
     <script src="./js/card.js" defer></script>
+    <script src="./js/index.js" defer></script>
+    <script src="./js/search.js" defer></script>
+    <script src="./js/detailFunction.js" defer></script>
   </head>
   <body>
     <header>
@@ -24,8 +26,7 @@
             <img
               src="./assets/img/logo-myCinetech.png"
               alt="logo My Cinetech"
-              class="logo"
-            />
+              class="logo" />
           </a>
         </div>
         <div id="container-nav">
@@ -61,8 +62,8 @@
           type="text"
           id="search"
           class="search"
-          placeholder="Rechercher"
-        />
+          placeholder="Rechercher" />
+        <div class="search-result"></div>
       </div>
     </header>
     <main>
