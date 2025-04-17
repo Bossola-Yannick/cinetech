@@ -3,7 +3,7 @@ let similarTitle = JSON.parse(localStorage.getItem("similar"));
 let inFavorite = JSON.parse(localStorage.getItem("favorite"));
 let typeOfSimilar = localStorage.getItem("type");
 
-let main = $("main");
+let main = $("#detail");
 // titre du film ou série
 if (myClickDetail.title) {
   let titleMovieDetail = $("<h1></h1>")
