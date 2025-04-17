@@ -1,13 +1,3 @@
-//! initialisation des localStorage à mettre dans l'index.js
-if (!localStorage.getItem("currentPageSerie")) {
-  localStorage.setItem("currentPageSerie", 1);
-}
-if (!localStorage.getItem("detail")) {
-  localStorage.setItem("detail", "");
-}
-// if (!localStorage.getItem("type")) {
-//   localStorage.setItem("type", "");
-// }
 // * Récupération des films
 async function getSeries(page) {
   let Series = `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
@@ -57,26 +47,14 @@ async function getSeries(page) {
   });
 })();
 
-// * Récupération des détail d'une série
-async function getDetailSerie(id, type) {
-  let detailSeries = `https://api.themoviedb.org/3/${type}/${id}?language=fr-FR`;
-  const getDetailSerie = await getData(detailSeries);
-  let serieClick = localStorage.getItem("detail");
-  serieClick = localStorage.setItem("detail", JSON.stringify(getDetailSerie));
-  let similarSerie = `https://api.themoviedb.org/3/${type}/${id}/similar?language=fr-FR&page=1`;
-  const getSimilarSerie = await getData(similarSerie);
-  let similarClick = localStorage.getItem("similar");
-  similarClick = localStorage.setItem(
-    "similar",
-    JSON.stringify(getSimilarSerie.results)
-  );
-  window.location.href = "./detail.html";
-}
 //* gestion du click sur une serie
 $("body").on("click", ".card", function () {
   (async () => {
+    let getType = localStorage.getItem("type");
+    getType = "tv";
+    localStorage.setItem("type", getType);
     let idCard = $(this).attr("value");
     let type = $(this).attr("type");
-    getDetailSerie(idCard, type);
+    getDetailMovie(idCard, type);
   })();
 });

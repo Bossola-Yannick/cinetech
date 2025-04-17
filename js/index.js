@@ -1,3 +1,20 @@
+//! initialisation des localStorage à mettre dans l'index.js
+if (!localStorage.getItem("currentPageMovie")) {
+  localStorage.setItem("currentPageMovie", 1);
+}
+if (!localStorage.getItem("detail")) {
+  localStorage.setItem("detail", "");
+}
+if (!localStorage.getItem("similar")) {
+  localStorage.setItem("similar", "");
+}
+if (!localStorage.getItem("favorite")) {
+  localStorage.setItem("favorite", JSON.stringify([]));
+}
+if (!localStorage.getItem("type")) {
+  localStorage.setItem("type", "");
+}
+
 async function getTrendingMovies() {
   const trendingMovies = `https://api.themoviedb.org/3/trending/movie/week?language=fr-FR`;
   let data = await getData(trendingMovies);
@@ -24,6 +41,9 @@ async function getTrendingMovies() {
     newMovieList.forEach((movie) => {
       movie.addEventListener("click", () => {
         const type = movie.getAttribute("type");
+        let localStorageType = localStorage.getItem("type");
+        localStorageType = type;
+        localStorage.setItem("type", localStorageType);
         const id = movie.getAttribute("value");
         getDetailMovie(id, type);
       });
@@ -101,6 +121,9 @@ async function getTrendingSeries() {
     newSerieList.forEach((serie) => {
       serie.addEventListener("click", () => {
         const type = serie.getAttribute("type");
+        let localStorageType = localStorage.getItem("type");
+        localStorageType = type;
+        localStorage.setItem("type", localStorageType);
         const id = serie.getAttribute("value");
         getDetailMovie(id, type);
       });
