@@ -1,6 +1,17 @@
 let detailClick = JSON.parse(localStorage.getItem("detail"));
 let commentsList = JSON.parse(localStorage.getItem("comments")) || [];
-// console.log(commentsList);
+
+const date = new Date();
+const dateFormat = date.toISOString().split("T")[0];
+console.log(date.getDate());
+// elements
+const sectionComment = document.getElementById("comment");
+const sectionReview = document.createElement("div");
+sectionReview.classList.add("all-reviews");
+
+// variable
+let type;
+detailClick.name ? (type = "tv") : (type = "movie");
 
 // méthode contre les injections
 const htmlentities = (text) => {
@@ -51,11 +62,11 @@ const errorInputs = (pseudo, comment) => {
   return true;
 };
 
-const mainBox = document.querySelector("main");
+// ****************************************** //
+// ********** Ajout de commentaire ********* //
+// **************************************** //
 
 // boite ajout commentaire
-const newSection = document.createElement("section");
-newSection.classList.add("comments-section");
 const addComment = document.createElement("div");
 addComment.classList.add("add-comment-box");
 addComment.innerHTML = `
@@ -66,8 +77,7 @@ addComment.innerHTML = `
   </div>
   <p class="error"></p>
   `;
-newSection.appendChild(addComment);
-mainBox.appendChild(newSection);
+sectionComment.appendChild(addComment);
 
 // ajustement boite commentaire selon la longueur du texte
 const ajoutCommentText = document.querySelector(".input-comment");
@@ -75,6 +85,51 @@ ajoutCommentText.addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = this.scrollHeight + "px";
 });
+
+// ****************************************** //
+// ******* Affichage de commentaires ******* //
+// **************************************** //
+
+// créer la boite pour chaque commentaire
+const createCommentBox = (name, comment, date = "none") => {
+  const reviewBox = document.createElement("div");
+  reviewBox.classList.add("review-box");
+  reviewBox.innerHTML = `
+            <p>${name}</p>
+            <p>${comment}</p>
+            <p>date: ${date}</p>
+            <div class="button-box">
+                <button type="submit" class="reply-comment-button">Répondre</button>
+            </div>
+            `;
+  sectionReview.appendChild(reviewBox);
+  sectionComment.appendChild(sectionReview);
+};
+
+// recupere les infos commentaires
+async function getReviewMovies(id, type) {
+  sectionReview.innerHTML = "";
+
+  // manual commentaire
+  commentsList
+    .filter((review) => review.id === id)
+    .reverse()
+    .forEach((review) => {
+      createCommentBox(review.pseudo, review.comment, review.date);
+    });
+
+  // get commentaire
+  const reviewMovies = `https://api.themoviedb.org/3/${type}/${id}/reviews?language=en-US&page=1`;
+  let data = await getData(reviewMovies);
+
+  if (data && data.results) {
+    const dataMax = data.results.slice(0, 5);
+    dataMax.reverse().forEach((review) => {
+      const date = review.created_at.split("T")[0];
+      createCommentBox(review.author_details?.username, review.content, date);
+    });
+  }
+}
 
 // évènement ajout de commentaire
 const buttonAddComment = document.querySelector(".add-comment-button");
@@ -84,33 +139,28 @@ buttonAddComment.addEventListener("click", (e) => {
   const inputComment = document.querySelector(".input-comment");
 
   // gestion inputs
-  //   const pseudo = "teste";
-  //   const comment = "blajbabnvnaevkne";
   const pseudo = htmlentities(inputPseudo.value.trim());
   const comment = htmlentities(inputComment.value.trim());
 
   // sauvegarde le commentaire en local storage
   if (errorInputs(pseudo, comment)) {
-    let type;
-    if (detailClick.name) {
-      type = "tv";
-    } else {
-      type = "movie";
-    }
-
     const objectComment = {
       id: detailClick.id,
       type: type,
       pseudo: pseudo,
       comment: comment,
+      date: dateFormat,
     };
 
     commentsList.push(objectComment);
-
     localStorage.setItem("comments", JSON.stringify(commentsList));
 
     // Réinitialisation des champs
     inputPseudo.value = "";
     inputComment.value = "";
+
+    getReviewMovies(detailClick.id, type);
   }
 });
+
+getReviewMovies(detailClick.id, type);

@@ -95,11 +95,11 @@
   text-align: center;
 }
 
-.comments-section {
+#comment {
   background-color: red;
-  width: 50%;
+  width: 90%;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 1.5rem;
 }
 
 .add-comment-box {
@@ -129,4 +129,11 @@
 .add-comment-button {
   width: 5rem;
 }
+
+.all-reviews {
+ display: flex;
+ flex-direction: column;
+ gap: 2rem;
+}
+
 
