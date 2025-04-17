@@ -114,6 +114,21 @@ for (let i = 0; i < 5; i++) {
 }
 containerDetail.append(allSimilarBox);
 
+console.log(myClickDetail);
+
+// gestion des tags des catégorie
+let titleTag = $("<h3></h3>").addClass("resume-title").text("Catégories :");
+let tagBox = $("<div></div>").addClass("tag-box");
+let tags = myClickDetail.genres;
+console.log(tags);
+tags.forEach((tag) => {
+  let theTag = $("<h3></h3>").addClass("tag").text(`${tag.name}`);
+  tagBox.append(theTag);
+});
+
+containerDetail.append(titleTag);
+containerDetail.append(tagBox);
+
 // voir le détail d'un similar
 $("body").on("click", ".similar-poster", function () {
   (async () => {

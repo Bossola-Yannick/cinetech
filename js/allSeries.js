@@ -1,16 +1,3 @@
-//! initialisation des localStorage à mettre dans l'index.js
-if (!localStorage.getItem("currentPageSerie")) {
-  localStorage.setItem("currentPageSerie", 1);
-}
-if (!localStorage.getItem("detail")) {
-  localStorage.setItem("detail", "");
-}
-if (!localStorage.getItem("similar")) {
-  localStorage.setItem("similar", "");
-}
-if (!localStorage.getItem("type")) {
-  localStorage.setItem("type", "");
-}
 // * Récupération des films
 async function getSeries(page) {
   let Series = `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
