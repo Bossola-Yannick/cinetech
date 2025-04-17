@@ -1,15 +1,22 @@
 let myClickDetail = JSON.parse(localStorage.getItem("detail"));
 let similarTitle = JSON.parse(localStorage.getItem("similar"));
-let inFavorite = JSON.parse(localStorage.getItem("favorite"));
-let type = localStorage.getItem("type");
+let inFavorite = localStorage.getItem("favorite") || [];
+// let type = localStorage.getItem("type");
 console.log(similarTitle);
 console.log(myClickDetail);
 let main = $("main");
 // titre du film ou série
-let titleMovieDetail = $("<h1></h1>")
-  .addClass("movie-title")
-  .text(`${myClickDetail.title}`);
-main.append(titleMovieDetail);
+if (myClickDetail.title) {
+  let titleMovieDetail = $("<h1></h1>")
+    .addClass("movie-title")
+    .text(`${myClickDetail.title}`);
+  main.append(titleMovieDetail);
+} else {
+  let titleMovieDetail = $("<h1></h1>")
+    .addClass("movie-title")
+    .text(`${myClickDetail.name}`);
+  main.append(titleMovieDetail);
+}
 // mise en place du container
 let container = $("<section></section>").addClass("container");
 main.append(container);
@@ -128,7 +135,7 @@ let favorite = [];
 const addFavorite = () => {
   $(".favorite-box").removeClass("no-favorite").addClass("favorite");
   $(".favorite-image").attr({ src: "../assets/img/favorite.png" });
-  favorite = JSON.parse(localStorage.getItem("favorite")) || [];
+  favorite = localStorage.getItem("favorite") || [];
   favorite.push(myClickDetail);
   localStorage.setItem("favorite", JSON.stringify(favorite));
 };

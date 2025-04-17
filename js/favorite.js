@@ -3,7 +3,9 @@ console.log(myFavorite);
 
 if (myFavorite.length != 0) {
   myFavorite.forEach((element) => {
-    makingCard(element.poster_path, element.title, element.id);
+    if (element.name) {
+      makingCard(element.poster_path, element.title, element.id, "tv");
+    } else makingCard(element.poster_path, element.title, element.id, "movie");
   });
 } else {
   console.log("aucun favoris trouvé");
