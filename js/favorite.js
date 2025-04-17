@@ -14,3 +14,15 @@ if (myFavorite.length != 0) {
     }
   });
 }
+
+//* gestion du click sur un film
+$("body").on("click", ".card", function () {
+  (async () => {
+    let getType = localStorage.getItem("type");
+    getType = "movie";
+    localStorage.setItem("type", getType);
+    let idCard = $(this).attr("value");
+    let type = $(this).attr("type");
+    getDetailMovie(idCard, type);
+  })();
+});
