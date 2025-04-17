@@ -1,8 +1,6 @@
 const inputSearch = document.getElementById("search");
 const divSearchResult = document.querySelector(".search-result");
 
-console.log(window.location.pathname);
-
 async function getSearch(searchBar) {
   let search = `https://api.themoviedb.org/3/search/multi?query=${searchBar}&include_adult=false&language=fr-FR&page=1`;
   let data = await getData(search);
@@ -51,6 +49,5 @@ async function getSearch(searchBar) {
 
 inputSearch.addEventListener("input", (e) => {
   let searchBar = encodeURIComponent(e.target.value);
-  console.log(searchBar);
   getSearch(searchBar);
 });

@@ -2,8 +2,8 @@ let myClickDetail = JSON.parse(localStorage.getItem("detail"));
 let similarTitle = JSON.parse(localStorage.getItem("similar"));
 let inFavorite = localStorage.getItem("favorite") || [];
 // let type = localStorage.getItem("type");
-console.log(similarTitle);
-console.log(myClickDetail);
+// console.log(similarTitle);
+// console.log(myClickDetail);
 let main = $("main");
 // titre du film ou série
 if (myClickDetail.title) {

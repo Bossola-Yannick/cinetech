@@ -63,3 +63,57 @@
 .favorite-image {
   width: 100%;
 }
+
+/* ------------ */
+/* ---james---- */
+/* commentaires */
+
+.container {
+  margin-bottom: 2rem;
+}
+
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+.error {
+  height: 2rem;
+  text-align: center;
+}
+
+.comments-section {
+  background-color: red;
+  width: 50%;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.add-comment-box {
+  background-color: yellow;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-pseudo {
+  width: 15%;
+  padding: 0.2rem 0.5rem;
+}
+
+.input-comment {
+  padding: 0.5rem 1rem;
+  word-break: break-word;
+  resize: none;
+}
+
+.button-box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-comment-button {
+  width: 5rem;
+}
