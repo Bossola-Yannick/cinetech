@@ -2,12 +2,10 @@
 // const getAllSeries = `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
 // let detailSeries = `https://api.themoviedb.org/3/tv/${idSerie}?language=fr-FR`;
 // let similarSeries = `https://api.themoviedb.org/3/tv/${idSerie}/similar?language=fr-FR&page=1`;
-// let search = `https://api.themoviedb.org/3/search/movie?query=${inputSearch}&include_adult=false&language=en-US&page=1`;
 //! Routes des Films
 // const getAllMovies = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=vote_count.desc`;
 // let detailMovies = `https://api.themoviedb.org/3/movie/${idMovie}?language=fr-FR`;
 // let similarMovies = `https://api.themoviedb.org/3/movie/${idMovie}/similar?language=fr-FR&page=1`;
-// let search = `https://api.themoviedb.org/3/search/movie?query=${inputSearch}&include_adult=false&language=en-US&page=1`;
 
 // connexion API
 const settings = {
