@@ -11,5 +11,7 @@ async function getDetailMovie(id, type) {
     "similar",
     JSON.stringify(getSimilarMovie.results)
   );
-  window.location.href = "./pages/detail.html";
+  if (window.location.pathname == "/index.html") {
+    window.location.href = "./pages/detail.html";
+  } else window.location.href = "./detail.html";
 }

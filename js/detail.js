@@ -1,9 +1,8 @@
 let myClickDetail = JSON.parse(localStorage.getItem("detail"));
 let similarTitle = JSON.parse(localStorage.getItem("similar"));
-let inFavorite = localStorage.getItem("favorite") || [];
-// let type = localStorage.getItem("type");
-console.log(similarTitle);
-console.log(myClickDetail);
+let inFavorite = JSON.parse(localStorage.getItem("favorite"));
+let typeOfSimilar = localStorage.getItem("type");
+
 let main = $("main");
 // titre du film ou série
 if (myClickDetail.title) {
@@ -22,13 +21,17 @@ let container = $("<section></section>").addClass("container");
 main.append(container);
 // mise en place du container de l'affiche
 let posterMovieContainer = $("<div></div>").addClass("container-poster");
-let poster = $("<img/>")
+let poster;
+if (myClickDetail.poster_path) {
+  poster = `https://image.tmdb.org/t/p/w500/${myClickDetail.poster_path}`;
+} else poster = "../assets/img/no-poster.jpg";
+let affiche = $("<img/>")
   .attr({
-    src: `https://image.tmdb.org/t/p/w500/${myClickDetail.poster_path}`,
+    src: `${poster}`,
     alt: myClickDetail.title,
   })
   .addClass("poster");
-posterMovieContainer.append(poster);
+posterMovieContainer.append(affiche);
 container.append(posterMovieContainer);
 // mise en place du container des détail
 let containerDetail = $("<div></div>").addClass("container-detail");
@@ -64,7 +67,7 @@ containerDetail.append(resumeTitle);
 containerDetail.append(resumeText);
 container.append(containerDetail);
 
-// * Gewtion de la note
+// * Gestion de la note
 let note = Math.floor(myClickDetail.vote_average);
 if (note > 1) {
   let thisStar = $(".box-stars .box-one-star").eq(0).find(".star");
@@ -92,13 +95,16 @@ let titleSimilar = $("<h3></h3>")
   .addClass("resume-title")
   .text("Titre similaire :");
 containerDetail.append(titleSimilar);
-let allSimilarBox = $("<div></div>").addClass("similar-box");
+let allSimilarBox = $("<div></div>").addClass("similar-box ");
 for (let i = 0; i < 5; i++) {
   let similarBox = $("<div></div>").addClass("similar");
-  let poster = similarTitle[i].poster_path;
+  let poster;
+  if (similarTitle[i].poster_path) {
+    poster = `https://image.tmdb.org/t/p/w500/${similarTitle[i].poster_path}`;
+  } else poster = "../assets/img/no-poster.jpg";
   let similarImg = $("<img/>")
     .attr({
-      src: `https://image.tmdb.org/t/p/w500/${poster}`,
+      src: `${poster}`,
       alt: `${similarTitle[i].title}`,
       value: `${similarTitle[i].id}`,
     })
@@ -108,34 +114,20 @@ for (let i = 0; i < 5; i++) {
 }
 containerDetail.append(allSimilarBox);
 
+// voir le détail d'un similar
 $("body").on("click", ".similar-poster", function () {
   (async () => {
     let idCard = $(this).attr("value");
-    getDetailMovie(idCard);
+    getDetailMovie(idCard, typeOfSimilar);
   })();
 });
-// * Récupération des détail d'un films
-async function getDetailMovie(id, type) {
-  let detailMovies = `https://api.themoviedb.org/3/${type}/${id}?language=fr-FR`;
-  const getDetailMovie = await getData(detailMovies);
-  let movieClick = localStorage.getItem("detail");
-  movieClick = localStorage.setItem("detail", JSON.stringify(getDetailMovie));
-  let similarMovies = `https://api.themoviedb.org/3/${type}/${id}/similar?language=fr-FR&page=1`;
-  const getSimilarMovie = await getData(similarMovies);
-  let similarClick = localStorage.getItem("similar");
-  similarClick = localStorage.setItem(
-    "similar",
-    JSON.stringify(getSimilarMovie.results)
-  );
-  window.location.href = "../pages/detail.html";
-}
 
 // * Mise et retrait en favoris
 let favorite = [];
 const addFavorite = () => {
   $(".favorite-box").removeClass("no-favorite").addClass("favorite");
   $(".favorite-image").attr({ src: "../assets/img/favorite.png" });
-  favorite = localStorage.getItem("favorite") || [];
+  favorite = JSON.parse(localStorage.getItem("favorite")) || [];
   favorite.push(myClickDetail);
   localStorage.setItem("favorite", JSON.stringify(favorite));
 };
