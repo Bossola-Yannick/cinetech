@@ -90,7 +90,8 @@
 .green {
   color: green;
 }
-.error {
+.error,
+.error-reply {
   height: 2rem;
   text-align: center;
 }
@@ -112,6 +113,7 @@
 
 .add-reply-box {
   width: 100%;
+  height: auto;
   background-color: rgb(21, 255, 0);
   color: black;
   display: flex;
@@ -158,6 +160,7 @@
 .review-box {
   background-color: blue;
   width: 90%;
+  height: auto;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -183,3 +186,18 @@
   margin-left: 0.5rem;
 }
 
+/* reply boite */
+
+.review-reply {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.reply-box {
+  width: 80%;
+  background-color: pink;
+  color: black;
+}

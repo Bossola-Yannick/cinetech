@@ -1,5 +1,6 @@
 let detailClick = JSON.parse(localStorage.getItem("detail"));
 let commentsList = JSON.parse(localStorage.getItem("comments")) || [];
+let replyList = JSON.parse(localStorage.getItem("reply")) || [];
 
 const date = new Date();
 const dateFormat = date.toISOString().split("T")[0];
@@ -19,15 +20,16 @@ const htmlentities = (text) => {
 };
 
 // méthode erreurs sur pseudo / commentaires
-const errorInputs = (pseudo, comment) => {
-  const error = document.querySelector(".error");
+const errorInputs = (pseudo, comment, box) => {
+  const error = box.querySelector(".error");
 
   if (!pseudo) {
     error.classList.add("red");
     error.innerText = "Veuillez saisir un pseudo";
-    addComment.appendChild(error);
+    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
+      error.classList.remove("red");
     }, 2000);
     return false;
   }
@@ -35,9 +37,10 @@ const errorInputs = (pseudo, comment) => {
   if (pseudo.length >= 10 || pseudo.length < 3) {
     error.classList.add("red");
     error.innerText = "Le pseudo doit contenir entre 3 et 10 caractères";
-    addComment.appendChild(error);
+    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
+      error.classList.remove("red");
     }, 2000);
     return false;
   }
@@ -45,9 +48,10 @@ const errorInputs = (pseudo, comment) => {
   if (comment.length < 5) {
     error.classList.add("red");
     error.innerText = "Fait un effort...";
-    addComment.appendChild(error);
+    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
+      error.classList.remove("red");
     }, 2000);
     return false;
   }
@@ -56,6 +60,7 @@ const errorInputs = (pseudo, comment) => {
   error.innerText = "Commentaire ajouté";
   setTimeout(() => {
     error.innerText = "";
+    error.classList.remove("green");
   }, 2000);
   return true;
 };
@@ -126,7 +131,7 @@ const createCommentBox = (name, comment, date, id_comment) => {
             </div>
     </div>
     <div class="review-form" value="${id_comment}"></div>
-    <div class="review-reply"></div>
+    <div class="review-reply" value="${id_comment}"></div>
             `;
   sectionReview.appendChild(reviewBox);
   sectionComment.appendChild(sectionReview);
@@ -147,6 +152,7 @@ async function getReviewMovies(id, type) {
         review.date,
         review.id_comment
       );
+      getReplyComments(review.id_comment);
     });
 
   // get commentaire
@@ -163,6 +169,7 @@ async function getReviewMovies(id, type) {
         date,
         review.id
       );
+      getReplyComments(review.id_comment);
     });
   }
 }
@@ -179,7 +186,7 @@ if (buttonAddComment) {
     const comment = htmlentities(inputComment.value.trim());
 
     // sauvegarde le commentaire en local storage
-    if (errorInputs(pseudo, comment)) {
+    if (errorInputs(pseudo, comment, addComment)) {
       const id = `${Date.now()}${Math.floor(Math.random() * 100000)}`;
       const objectComment = {
         id_detail: detailClick.id,
@@ -214,6 +221,37 @@ if (buttonAddComment) {
 // ******* Repondre a un commentaire ******* //
 // **************************************** //
 
+// créer la boite pour chaque commentaire REPONSE
+const createReplyCommentBox = (name, comment, date, box) => {
+  const reviewBox = document.createElement("div");
+  reviewBox.classList.add("reply-box");
+  reviewBox.innerHTML = `
+      <div class="reply-text">
+          <div class="title-comment">
+              <p class="pseudo">${name}</p>
+              <span class="date">date: ${date}</span>
+          </div>
+              <p>${comment}</p> 
+              `;
+  box.appendChild(reviewBox);
+};
+
+// recupere les reponses des commentaires
+const getReplyComments = (id) => {
+  const reviewReply = document.querySelectorAll(".review-reply");
+  reviewReply.forEach((box) => {
+    let checkId = box.getAttribute("value");
+    if (checkId === id) {
+      box.innerHTML = "";
+      replyList
+        .filter((reply) => reply.reply_to === id)
+        .forEach((reply) => {
+          createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
+        });
+    }
+  });
+};
+
 // création boite repondre form
 const replyForm = (id) => {
   const addReply = document.createElement("div");
@@ -225,13 +263,40 @@ const replyForm = (id) => {
             <button type="submit" class="cancel-reply-button">Annuler</button>
             <button type="submit" class="add-reply-button">Valider</button>
         </div>
-        <p class="error-reply"></p>
+        <p class="error"></p>
         `;
 
   // evenement bouton ajout reponse
   const buttonAdd = addReply.querySelector(".add-reply-button");
   buttonAdd.addEventListener("click", () => {
-    console.log(id);
+    const inputPseudo = document.querySelector(".reply-pseudo");
+    const inputComment = document.querySelector(".reply-comment");
+
+    // gestion inputs
+    const pseudo = htmlentities(inputPseudo.value.trim());
+    const comment = htmlentities(inputComment.value.trim());
+
+    // sauvegarde le commentaire en local storage
+    if (errorInputs(pseudo, comment, addReply)) {
+      const objectComment = {
+        reply_to: id,
+        pseudo: pseudo,
+        comment: comment,
+        date: dateFormat,
+      };
+
+      replyList.push(objectComment);
+      localStorage.setItem("reply", JSON.stringify(replyList));
+
+      // Réinitialisation des champs
+      inputPseudo.value = "";
+      inputComment.value = "";
+
+      // recup des reponses du commentaire
+      getReplyComments(id);
+
+      addReply.remove();
+    }
   });
 
   // evenement bouton annuler
@@ -251,13 +316,14 @@ const replyForm = (id) => {
   });
 };
 
+// récupere les boutons repondre de chaque commentaires
 getReviewMovies(detailClick.id, type).then(() => {
   const buttonReply = document.querySelectorAll(".reply-comment-button");
   buttonReply.forEach((button) => {
     button.addEventListener("click", () => {
       const idComment = button.getAttribute("value");
-      //   console.log(idComment);
       replyForm(idComment);
+      // recup des reponses du commentaire
     });
   });
 });
