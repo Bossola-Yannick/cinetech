@@ -70,9 +70,10 @@ const errorInputs = (pseudo, comment) => {
 const addComment = document.createElement("div");
 addComment.classList.add("add-comment-box");
 addComment.innerHTML = `
-  <input type="text" class="input-pseudo" placeholder="Pseudo">
+  <input id="input-name" type="text" class="input-pseudo" placeholder="Pseudo">
   <textarea class="input-comment" rows="2" placeholder="Ajouter un commentaire"></textarea>
   <div class="button-box">
+    <button type="submit" class="cancel-comment-button">Annuler</button>
     <button type="submit" class="add-comment-button">Valider</button>
   </div>
   <p class="error"></p>
@@ -86,6 +87,23 @@ ajoutCommentText.addEventListener("input", function () {
   this.style.height = this.scrollHeight + "px";
 });
 
+const buttonAddComment = document.querySelector(".add-comment-button");
+const buttonCancelComment = document.querySelector(".cancel-comment-button");
+const textAreaInput = document.querySelector("textarea");
+const inputName = document.getElementById("input-name");
+
+textAreaInput.addEventListener("click", () => {
+  inputName.style.display = "block";
+  buttonAddComment.style.display = "block";
+  buttonCancelComment.style.display = "block";
+});
+
+buttonCancelComment.addEventListener("click", () => {
+  inputName.style.display = "none";
+  buttonAddComment.style.display = "none";
+  buttonCancelComment.style.display = "none";
+});
+
 // ****************************************** //
 // ******* Affichage de commentaires ******* //
 // **************************************** //
@@ -95,9 +113,11 @@ const createCommentBox = (name, comment, date = "none") => {
   const reviewBox = document.createElement("div");
   reviewBox.classList.add("review-box");
   reviewBox.innerHTML = `
-            <p>${name}</p>
+        <div class="title-comment">
+            <p class="pseudo">${name}</p>
+            <span class="date">date: ${date}</span>
+        </div>
             <p>${comment}</p>
-            <p>date: ${date}</p>
             <div class="button-box">
                 <button type="submit" class="reply-comment-button">Répondre</button>
             </div>
@@ -132,35 +152,42 @@ async function getReviewMovies(id, type) {
 }
 
 // évènement ajout de commentaire
-const buttonAddComment = document.querySelector(".add-comment-button");
-buttonAddComment.addEventListener("click", (e) => {
-  e.preventDefault();
-  const inputPseudo = document.querySelector(".input-pseudo");
-  const inputComment = document.querySelector(".input-comment");
+if (buttonAddComment) {
+  buttonAddComment.addEventListener("click", (e) => {
+    e.preventDefault();
+    const inputPseudo = document.querySelector(".input-pseudo");
+    const inputComment = document.querySelector(".input-comment");
 
-  // gestion inputs
-  const pseudo = htmlentities(inputPseudo.value.trim());
-  const comment = htmlentities(inputComment.value.trim());
+    // gestion inputs
+    const pseudo = htmlentities(inputPseudo.value.trim());
+    const comment = htmlentities(inputComment.value.trim());
 
-  // sauvegarde le commentaire en local storage
-  if (errorInputs(pseudo, comment)) {
-    const objectComment = {
-      id: detailClick.id,
-      type: type,
-      pseudo: pseudo,
-      comment: comment,
-      date: dateFormat,
-    };
+    // sauvegarde le commentaire en local storage
+    if (errorInputs(pseudo, comment)) {
+      const objectComment = {
+        id: detailClick.id,
+        type: type,
+        pseudo: pseudo,
+        comment: comment,
+        date: dateFormat,
+      };
 
-    commentsList.push(objectComment);
-    localStorage.setItem("comments", JSON.stringify(commentsList));
+      commentsList.push(objectComment);
+      localStorage.setItem("comments", JSON.stringify(commentsList));
 
-    // Réinitialisation des champs
-    inputPseudo.value = "";
-    inputComment.value = "";
+      // Réinitialisation des champs
+      inputPseudo.value = "";
+      inputComment.value = "";
 
-    getReviewMovies(detailClick.id, type);
-  }
-});
+      getReviewMovies(detailClick.id, type);
+
+      setTimeout(() => {
+        inputName.style.display = "none";
+        buttonAddComment.style.display = "none";
+        buttonCancelComment.style.display = "none";
+      }, 1000);
+    }
+  });
+}
 
 getReviewMovies(detailClick.id, type);

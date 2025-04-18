@@ -111,6 +111,7 @@
 }
 
 .input-pseudo {
+  display: none;
   width: 15%;
   padding: 0.2rem 0.5rem;
 }
@@ -124,16 +125,44 @@
 .button-box {
   display: flex;
   justify-content: flex-end;
+  margin-right: 2rem;
+  gap: 2rem;
 }
 
-.add-comment-button {
+.add-comment-button,
+.cancel-comment-button {
+  display: none;
   width: 5rem;
+  text-align: center;
 }
 
 .all-reviews {
  display: flex;
  flex-direction: column;
+ justify-content: center;
+ align-items: center;
  gap: 2rem;
 }
 
+/* boite affiche commentaire */
+.review-box {
+  background-color: blue;
+  width: 90%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pseudo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.date {
+  font-size: 0.9rem;
+  font-weight: normal;
+  font-style: italic;
+  margin-left: 0.5rem;
+}
 
