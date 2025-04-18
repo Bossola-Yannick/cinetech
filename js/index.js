@@ -17,6 +17,9 @@ if (!localStorage.getItem("type")) {
 if (!localStorage.getItem("comments")) {
   localStorage.setItem("comments", JSON.stringify([]));
 }
+if (!localStorage.getItem("reply")) {
+  localStorage.setItem("reply", JSON.stringify([]));
+}
 
 async function getTrendingMovies() {
   const trendingMovies = `https://api.themoviedb.org/3/trending/movie/week?language=fr-FR`;

@@ -3,11 +3,9 @@ let commentsList = JSON.parse(localStorage.getItem("comments")) || [];
 
 const date = new Date();
 const dateFormat = date.toISOString().split("T")[0];
-console.log(date.getDate());
+
 // elements
 const sectionComment = document.getElementById("comment");
-const sectionReview = document.createElement("div");
-sectionReview.classList.add("all-reviews");
 
 // variable
 let type;
@@ -92,6 +90,7 @@ const buttonCancelComment = document.querySelector(".cancel-comment-button");
 const textAreaInput = document.querySelector("textarea");
 const inputName = document.getElementById("input-name");
 
+// événement affichage button et username input
 textAreaInput.addEventListener("click", () => {
   inputName.style.display = "block";
   buttonAddComment.style.display = "block";
@@ -108,19 +107,26 @@ buttonCancelComment.addEventListener("click", () => {
 // ******* Affichage de commentaires ******* //
 // **************************************** //
 
+const sectionReview = document.createElement("div");
+sectionReview.classList.add("all-reviews");
+
 // créer la boite pour chaque commentaire
-const createCommentBox = (name, comment, date = "none") => {
+const createCommentBox = (name, comment, date, id_comment) => {
   const reviewBox = document.createElement("div");
   reviewBox.classList.add("review-box");
   reviewBox.innerHTML = `
+    <div class="review-text">
         <div class="title-comment">
             <p class="pseudo">${name}</p>
             <span class="date">date: ${date}</span>
         </div>
             <p>${comment}</p>
             <div class="button-box">
-                <button type="submit" class="reply-comment-button">Répondre</button>
+                <button type="submit" value="${id_comment}" class="reply-comment-button">Répondre</button>
             </div>
+    </div>
+    <div class="review-form" value="${id_comment}"></div>
+    <div class="review-reply"></div>
             `;
   sectionReview.appendChild(reviewBox);
   sectionComment.appendChild(sectionReview);
@@ -132,10 +138,15 @@ async function getReviewMovies(id, type) {
 
   // manual commentaire
   commentsList
-    .filter((review) => review.id === id)
+    .filter((review) => review.id_detail === id)
     .reverse()
     .forEach((review) => {
-      createCommentBox(review.pseudo, review.comment, review.date);
+      createCommentBox(
+        review.pseudo,
+        review.comment,
+        review.date,
+        review.id_comment
+      );
     });
 
   // get commentaire
@@ -146,7 +157,12 @@ async function getReviewMovies(id, type) {
     const dataMax = data.results.slice(0, 5);
     dataMax.reverse().forEach((review) => {
       const date = review.created_at.split("T")[0];
-      createCommentBox(review.author_details?.username, review.content, date);
+      createCommentBox(
+        review.author_details?.username,
+        review.content,
+        date,
+        review.id
+      );
     });
   }
 }
@@ -164,8 +180,10 @@ if (buttonAddComment) {
 
     // sauvegarde le commentaire en local storage
     if (errorInputs(pseudo, comment)) {
+      const id = `${Date.now()}${Math.floor(Math.random() * 100000)}`;
       const objectComment = {
-        id: detailClick.id,
+        id_detail: detailClick.id,
+        id_comment: id,
         type: type,
         pseudo: pseudo,
         comment: comment,
@@ -190,4 +208,56 @@ if (buttonAddComment) {
   });
 }
 
-getReviewMovies(detailClick.id, type);
+// getReviewMovies(detailClick.id, type);
+
+// ****************************************** //
+// ******* Repondre a un commentaire ******* //
+// **************************************** //
+
+// création boite repondre form
+const replyForm = (id) => {
+  const addReply = document.createElement("div");
+  addReply.classList.add("add-reply-box");
+  addReply.innerHTML = `
+        <input id="reply-name" type="text" class="reply-pseudo" placeholder="Pseudo">
+        <textarea class="reply-comment" rows="3" placeholder="Ajouter un commentaire"></textarea>
+        <div class="button-box">
+            <button type="submit" class="cancel-reply-button">Annuler</button>
+            <button type="submit" class="add-reply-button">Valider</button>
+        </div>
+        <p class="error-reply"></p>
+        `;
+
+  // evenement bouton ajout reponse
+  const buttonAdd = addReply.querySelector(".add-reply-button");
+  buttonAdd.addEventListener("click", () => {
+    console.log(id);
+  });
+
+  // evenement bouton annuler
+  const buttonCancel = addReply.querySelector(".cancel-reply-button");
+  buttonCancel.addEventListener("click", () => {
+    addReply.remove();
+  });
+
+  const replysBox = document.querySelectorAll(".review-form");
+  replysBox.forEach((box) => {
+    let checkId = box.getAttribute("value");
+    if (checkId === id) {
+      box.innerHTML = "";
+      box.appendChild(addReply);
+      console.log(box);
+    }
+  });
+};
+
+getReviewMovies(detailClick.id, type).then(() => {
+  const buttonReply = document.querySelectorAll(".reply-comment-button");
+  buttonReply.forEach((button) => {
+    button.addEventListener("click", () => {
+      const idComment = button.getAttribute("value");
+      //   console.log(idComment);
+      replyForm(idComment);
+    });
+  });
+});
