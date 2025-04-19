@@ -11,6 +11,8 @@ const sectionComment = document.getElementById("comment");
 // variable
 let type;
 detailClick.name ? (type = "tv") : (type = "movie");
+let currentPage = 1;
+const commentsPerPage = 5;
 
 // méthode contre les injections
 const htmlentities = (text) => {
@@ -138,41 +140,137 @@ const createCommentBox = (name, comment, date, id_comment) => {
 };
 
 // recupere les infos commentaires
-async function getReviewMovies(id, type) {
-  sectionReview.innerHTML = "";
+async function getReviews(id, type) {
+  //   sectionReview.innerHTML = "";
+  // récupération commentaires
+  const totalComment = [];
 
-  // manual commentaire
+  // manual commentaires
   commentsList
     .filter((review) => review.id_detail === id)
     .reverse()
-    .forEach((review) => {
-      createCommentBox(
-        review.pseudo,
-        review.comment,
-        review.date,
-        review.id_comment
-      );
-      getReplyComments(review.id_comment);
+    .forEach((result) => {
+      totalComment.push(result);
     });
 
-  // get commentaire
-  const reviewMovies = `https://api.themoviedb.org/3/${type}/${id}/reviews?language=en-US&page=1`;
-  let data = await getData(reviewMovies);
+  // limite recuperation des commentaires a 5pages
+  for (let i = 1; i <= 5; i++) {
+    const reviews = `https://api.themoviedb.org/3/${type}/${id}/reviews?language=en-US&page=${i}`;
+    let data = await getData(reviews);
 
-  if (data && data.results) {
-    const dataMax = data.results.slice(0, 5);
-    dataMax.reverse().forEach((review) => {
-      const date = review.created_at.split("T")[0];
-      createCommentBox(
-        review.author_details?.username,
-        review.content,
-        date,
-        review.id
-      );
-      getReplyComments(review.id_comment);
+    if (data && data.results) {
+      //   sectionReview.innerHTML = "";
+
+      data.results.forEach((result) => {
+        totalComment.push(result);
+      });
+    }
+  }
+
+  // trie les commentaires du plus recent au plus ancien
+  totalComment.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  // pagination
+  pageComments(totalComment, currentPage);
+  pageNumberButtons(totalComment);
+
+  //     const dataMax = data.results.slice(0, 5);
+  //   dataMax.reverse().forEach((review) => {
+
+  //   totalComment.forEach((review) => {
+  //     let date;
+  //     createCommentBox(
+  //       review.author_details?.username || review.pseudo,
+  //       review.content || review.comment,
+  //       date,
+  //       review.id || review.id_comment
+  //     );
+  //     getReplyComments(review.id_comment);
+  //   });
+}
+
+// créer 5 boites de commentaire par page
+const pageComments = (comments, page) => {
+  sectionReview.innerHTML = "";
+
+  const startIndex = (page - 1) * commentsPerPage;
+  const endIndex = startIndex + commentsPerPage;
+
+  const paginatedComments = comments.slice(startIndex, endIndex);
+  paginatedComments.forEach((review) => {
+    const date = (review.created_at || review.date).split("T")[0];
+    createCommentBox(
+      review.author_details?.username || review.pseudo,
+      review.content || review.comment,
+      date,
+      review.id || review.id_comment
+    );
+  });
+};
+
+const pageNumberButtons = (totalComments) => {
+  const pagesBox = document.createElement("div");
+  pagesBox.classList.add("pages-box");
+
+  const totalPages = Math.ceil(totalComments.length / commentsPerPage);
+
+  // bouton précédent
+  const prevButton = document.createElement("p");
+  prevButton.classList.add("previous-next");
+  prevButton.innerText = "Précédent";
+  currentPage === 1
+    ? (prevButton.style.visibility = "hidden")
+    : (prevButton.style.visibility = "visible");
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      pageComments(totalComments, currentPage);
+      pageNumberButtons(totalComments);
+    }
+  });
+  pagesBox.appendChild(prevButton);
+
+  // numéro pages
+  for (let page = 1; page <= totalPages; page++) {
+    const pageNumberP = document.createElement("p");
+    pageNumberP.classList.add("page-number");
+    pageNumberP.innerText = page;
+
+    if (page === currentPage) {
+      pageNumberP.classList.add("active-page");
+    } else {
+      pageNumberP.classList.remove("active-page");
+    }
+
+    pagesBox.appendChild(pageNumberP);
+
+    pageNumberP.addEventListener("click", () => {
+      currentPage = page;
+      pageComments(totalComments, currentPage);
+      pageNumberButtons(totalComments);
     });
   }
-}
+
+  console.log(totalPages);
+
+  // bouton suivant
+  const nextButton = document.createElement("p");
+  nextButton.classList.add("previous-next");
+  nextButton.innerText = "Suivant";
+  currentPage === totalPages
+    ? (nextButton.style.visibility = "hidden")
+    : (nextButton.style.visibility = "visible");
+  nextButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage++;
+      pageComments(totalComments, currentPage);
+      pageNumberButtons(totalComments);
+    }
+  });
+  pagesBox.appendChild(nextButton);
+
+  sectionReview.appendChild(pagesBox);
+};
 
 // évènement ajout de commentaire
 if (buttonAddComment) {
@@ -204,7 +302,7 @@ if (buttonAddComment) {
       inputPseudo.value = "";
       inputComment.value = "";
 
-      getReviewMovies(detailClick.id, type);
+      getReviews(detailClick.id, type);
 
       setTimeout(() => {
         inputName.style.display = "none";
@@ -215,18 +313,18 @@ if (buttonAddComment) {
   });
 }
 
-// getReviewMovies(detailClick.id, type);
+// getReviews(detailClick.id, type);
 
 // ****************************************** //
 // ******* Repondre a un commentaire ******* //
 // **************************************** //
 
-// créer la boite pour chaque commentaire REPONSE
+// créer la boite pour chaque réponse
 const createReplyCommentBox = (name, comment, date, box) => {
   const reviewBox = document.createElement("div");
   reviewBox.classList.add("reply-box");
   reviewBox.innerHTML = `
-      <div class="reply-text">
+      <div class="review-text reply">
           <div class="title-comment">
               <p class="pseudo">${name}</p>
               <span class="date">date: ${date}</span>
@@ -236,7 +334,7 @@ const createReplyCommentBox = (name, comment, date, box) => {
   box.appendChild(reviewBox);
 };
 
-// recupere les reponses des commentaires
+// recupere les reponses du commentaire
 const getReplyComments = (id) => {
   const reviewReply = document.querySelectorAll(".review-reply");
   reviewReply.forEach((box) => {
@@ -317,13 +415,12 @@ const replyForm = (id) => {
 };
 
 // récupere les boutons repondre de chaque commentaires
-getReviewMovies(detailClick.id, type).then(() => {
+getReviews(detailClick.id, type).then(() => {
   const buttonReply = document.querySelectorAll(".reply-comment-button");
   buttonReply.forEach((button) => {
     button.addEventListener("click", () => {
       const idComment = button.getAttribute("value");
       replyForm(idComment);
-      // recup des reponses du commentaire
     });
   });
 });
