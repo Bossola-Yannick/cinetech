@@ -13,6 +13,8 @@ let type;
 detailClick.name ? (type = "tv") : (type = "movie");
 let currentPage = 1;
 const commentsPerPage = 5;
+let pageReply = 1;
+const maxReply = 3;
 
 // méthode contre les injections
 const htmlentities = (text) => {
@@ -258,8 +260,6 @@ const pageNumberButtons = (totalComments) => {
   });
   pagesBox.appendChild(nextButton);
   sectionReview.appendChild(pagesBox);
-
-  console.log(currentPage);
 };
 
 // évènement ajout de commentaire
@@ -330,36 +330,37 @@ const getReplyComments = (id) => {
     if (checkId === id) {
       box.innerHTML = "";
 
-      const maxReply = 3;
-      const pageReply = 1;
       const startReplyIndex = (pageReply - 1) * maxReply;
       const endReplyIndex = maxReply + startReplyIndex;
 
       replyList
         .filter((reply) => reply.reply_to === id)
-        .slice(startReplyIndex, endReplyIndex)
+        .slice(0, endReplyIndex)
         .forEach((reply) => {
           createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
         });
 
       // gestion voir plus
+      const totalReply = replyList.filter(
+        (reply) => reply.reply_to === id
+      ).length;
 
-      // if (replyList)
+      if (endReplyIndex < totalReply) {
+        const divShowMore = document.createElement("div");
+        divShowMore.classList.add("show-more-box");
 
-      const divShowMore = document.createElement("div");
-      divShowMore.classList.add("show-more-box");
+        const showMore = document.createElement("p");
+        showMore.classList.add("show-more");
+        showMore.innerText = "Voir plus...";
 
-      const showMore = document.createElement("p");
-      showMore.classList.add("show-more");
-      showMore.innerText = "Voir plus...";
-      divShowMore.appendChild(showMore);
-      box.appendChild(divShowMore);
+        showMore.addEventListener("click", () => {
+          pageReply++;
+          getReplyComments(id);
+        });
 
-      // replyList
-      //   .filter((reply) => reply.reply_to === id)
-      //   .forEach((reply) => {
-      //     createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
-      //   });
+        divShowMore.appendChild(showMore);
+        box.appendChild(divShowMore);
+      }
     }
   });
 };
