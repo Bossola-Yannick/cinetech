@@ -103,94 +103,201 @@
 
 
 #comment {
-  background-color: red;
   width: 90%;
   margin: 0 auto;
   padding: 1.5rem;
 }
 
+#comment-title {
+  width: fit-content;
+  margin: 0 auto 3rem;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #f9d88b;
+}
+
 .add-comment-box {
-  background-color: yellow;
+  width: 100%;
   color: black;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.review-form {
+  display: flex;
+  justify-content: flex-end;
+  transition: all 0.3s ease-in-out;
 }
 
 .add-reply-box {
   width: 100%;
   height: auto;
-  background-color: rgb(21, 255, 0);
   color: black;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+/* --------- */
+/*  inputs  */
+/* ------- */
+.input-comment,
+.input-pseudo,
+.reply-pseudo,
+.reply-comment {
+  min-width: fit-content;
+  background-color: #ffffff18;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border-bottom: 2px solid #f9d88b48;
+  transition: all 0.3s ease-in-out;
+}
+
+.reply-pseudo,
+.reply-comment {
+  width: 90%;
+  border-radius: 0 0 5px 5px;
+  border-bottom: 2px solid #0000002a;
 }
 
 .input-pseudo {
   display: none;
   width: 15%;
-  padding: 0.2rem 0.5rem;
+  transition: all 0.2s ease-in;
+}
+
+.input-comment::placeholder,
+.input-pseudo::placeholder,
+.reply-pseudo::placeholder,
+.reply-comment::placeholder {
+  color: rgba(255, 255, 255, 0.801);
+}
+.input-comment:focus,
+.input-pseudo:focus,
+.reply-pseudo:focus,
+.reply-comment:focus {
+  outline: none;
+  border-bottom: 2px solid #f75151;
 }
 
 .input-comment,
 .reply-comment {
-  padding: 0.5rem 1rem;
   word-break: break-word;
   resize: none;
+  transition: all 0.3s ease-in-out;
 }
 
+/* -------- */
+/* boutons */
+/* ------ */
 .button-box {
   display: flex;
   justify-content: flex-end;
-  margin-right: 2rem;
+  margin-top: 1rem;
   gap: 2rem;
 }
 
 .add-comment-button,
+.cancel-comment-button,
+.reply-comment-button,
+.add-reply-button,
+.cancel-reply-button {
+  background-color: rgba(255, 255, 255, 0.048);
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-align: center;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.add-comment-button,
 .cancel-comment-button {
   display: none;
-  width: 5rem;
-  text-align: center;
 }
+
+.add-comment-button:hover,
+.cancel-comment-button:hover,
+.add-reply-button:hover,
+.cancel-reply-button:hover {
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.add-comment-button:hover,
+.add-reply-button:hover {
+  background-color: rgba(25, 168, 12, 0.753);
+  color: rgb(255, 255, 255);
+}
+.cancel-comment-button:hover,
+.cancel-reply-button:hover { 
+  background-color: rgba(168, 12, 12, 0.753);
+  color: rgb(255, 255, 255);
+}
+
+.reply-comment-button:hover {
+  background-color: rgba(255, 255, 255, 0.281);
+ }
+
+
+ /* -------- */
+/* boites  */
+/* ------ */
 
 .all-reviews {
- display: flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
- gap: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
-/* boite affiche commentaire */
 .review-box {
-  background-color: blue;
   width: 100%;
   height: auto;
-  padding: 1rem;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .review-text {
-  background-color: green;
-  padding: 1rem;
+  background-color: #00000021;
+  width: 100%;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
+  border-radius: 5px 5px 0 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .pseudo {
+  color: #f9d88b;
   font-size: 1.2rem;
   font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.comment-text {
+  margin-left: 2rem;
 }
 
 .date {
+  color: rgb(0, 0, 0);
   font-size: 0.9rem;
-  font-weight: normal;
-  font-style: italic;
-  margin-left: 0.5rem;
 }
 
 /* reply boite */
@@ -208,17 +315,17 @@
 }
 
 .reply {
-  background-color: pink;
-  color: black;
+  background-color: rgba(255, 255, 255, 0.062);
 }
 
 /* pagination */
 
 .pages-box {
-  background-color: white;
+ width: 100%;
   height: fit-content;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: baseline;
   text-align: center;
   gap: 2rem;
@@ -230,6 +337,7 @@
   padding: 0.5rem;
   cursor: pointer;
   text-decoration: none;
+  font-weight: bold;
   color: black;
 }
 
@@ -241,6 +349,44 @@
 
 /* voir plus */
 
+.show-more-box {
+  width: 90%;
+  text-align: center;
+}
 .show-more {
+  color: rgba(253, 67, 67, 0.514);
   cursor: pointer;
+}
+
+@media screen and (max-width: 769px) {
+  #comment {
+    width: 100%;
+  }
+
+  .comment-text {
+    margin-left: 0.5rem;
+  }
+
+  .all-reviews {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+
+  .review-text {
+    padding: 1rem;
+  }
+
+  .pages-box {
+    gap: 0 1rem;
+  }
+
+  .previous-next {
+    width: 100%;
+  }
+
+  .all-reviews {
+    gap: 0.5rem;
+  }
 }

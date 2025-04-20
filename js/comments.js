@@ -118,7 +118,7 @@ const createCommentBox = (name, comment, date, id_comment) => {
             <p class="pseudo">${name}</p>
             <span class="date">date: ${date}</span>
         </div>
-            <p>${comment}</p>
+            <p class="comment-text">${comment}</p>
             <div class="button-box">
                 <button type="submit" value="${id_comment}" class="reply-comment-button">Répondre</button>
             </div>
@@ -300,7 +300,7 @@ const createReplyCommentBox = (name, comment, date, box) => {
               <p class="pseudo">${name}</p>
               <span class="date">date: ${date}</span>
           </div>
-              <p>${comment}</p> 
+              <p class="comment-text">${comment}</p> 
               `;
   box.appendChild(reviewBox);
 };
