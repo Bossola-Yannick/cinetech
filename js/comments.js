@@ -173,20 +173,6 @@ async function getReviews(id, type) {
   // pagination
   pageComments(totalComment, currentPage);
   pageNumberButtons(totalComment);
-
-  //     const dataMax = data.results.slice(0, 5);
-  //   dataMax.reverse().forEach((review) => {
-
-  //   totalComment.forEach((review) => {
-  //     let date;
-  //     createCommentBox(
-  //       review.author_details?.username || review.pseudo,
-  //       review.content || review.comment,
-  //       date,
-  //       review.id || review.id_comment
-  //     );
-  //     getReplyComments(review.id_comment);
-  //   });
 }
 
 // créer 5 boites de commentaire par page
@@ -205,6 +191,8 @@ const pageComments = (comments, page) => {
       date,
       review.id || review.id_comment
     );
+
+    getReplyComments(review.id || review.id_comment);
   });
 };
 
@@ -215,7 +203,8 @@ const pageNumberButtons = (totalComments) => {
   const totalPages = Math.ceil(totalComments.length / commentsPerPage);
 
   // bouton précédent
-  const prevButton = document.createElement("p");
+  const prevButton = document.createElement("a");
+  prevButton.setAttribute("href", "#comment-title");
   prevButton.classList.add("previous-next");
   prevButton.innerText = "Précédent";
   currentPage === 1
@@ -232,7 +221,8 @@ const pageNumberButtons = (totalComments) => {
 
   // numéro pages
   for (let page = 1; page <= totalPages; page++) {
-    const pageNumberP = document.createElement("p");
+    const pageNumberP = document.createElement("a");
+    pageNumberP.setAttribute("href", "#comment-title");
     pageNumberP.classList.add("page-number");
     pageNumberP.innerText = page;
 
@@ -251,25 +241,25 @@ const pageNumberButtons = (totalComments) => {
     });
   }
 
-  console.log(totalPages);
-
   // bouton suivant
-  const nextButton = document.createElement("p");
+  const nextButton = document.createElement("a");
+  nextButton.setAttribute("href", "#comment-title");
   nextButton.classList.add("previous-next");
   nextButton.innerText = "Suivant";
   currentPage === totalPages
     ? (nextButton.style.visibility = "hidden")
     : (nextButton.style.visibility = "visible");
   nextButton.addEventListener("click", () => {
-    if (currentPage > 1) {
+    if (currentPage >= 1) {
       currentPage++;
       pageComments(totalComments, currentPage);
       pageNumberButtons(totalComments);
     }
   });
   pagesBox.appendChild(nextButton);
-
   sectionReview.appendChild(pagesBox);
+
+  console.log(currentPage);
 };
 
 // évènement ajout de commentaire
@@ -313,8 +303,6 @@ if (buttonAddComment) {
   });
 }
 
-// getReviews(detailClick.id, type);
-
 // ****************************************** //
 // ******* Repondre a un commentaire ******* //
 // **************************************** //
@@ -341,11 +329,37 @@ const getReplyComments = (id) => {
     let checkId = box.getAttribute("value");
     if (checkId === id) {
       box.innerHTML = "";
+
+      const maxReply = 3;
+      const pageReply = 1;
+      const startReplyIndex = (pageReply - 1) * maxReply;
+      const endReplyIndex = maxReply + startReplyIndex;
+
       replyList
         .filter((reply) => reply.reply_to === id)
+        .slice(startReplyIndex, endReplyIndex)
         .forEach((reply) => {
           createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
         });
+
+      // gestion voir plus
+
+      // if (replyList)
+
+      const divShowMore = document.createElement("div");
+      divShowMore.classList.add("show-more-box");
+
+      const showMore = document.createElement("p");
+      showMore.classList.add("show-more");
+      showMore.innerText = "Voir plus...";
+      divShowMore.appendChild(showMore);
+      box.appendChild(divShowMore);
+
+      // replyList
+      //   .filter((reply) => reply.reply_to === id)
+      //   .forEach((reply) => {
+      //     createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
+      //   });
     }
   });
 };
