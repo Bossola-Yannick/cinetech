@@ -30,7 +30,6 @@ const errorInputs = (pseudo, comment, box) => {
   if (!pseudo) {
     error.classList.add("red");
     error.innerText = "Veuillez saisir un pseudo";
-    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
       error.classList.remove("red");
@@ -41,7 +40,6 @@ const errorInputs = (pseudo, comment, box) => {
   if (pseudo.length >= 10 || pseudo.length < 3) {
     error.classList.add("red");
     error.innerText = "Le pseudo doit contenir entre 3 et 10 caractères";
-    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
       error.classList.remove("red");
@@ -52,7 +50,6 @@ const errorInputs = (pseudo, comment, box) => {
   if (comment.length < 5) {
     error.classList.add("red");
     error.innerText = "Fait un effort...";
-    // addComment.appendChild(error);
     setTimeout(() => {
       error.innerText = "";
       error.classList.remove("red");
@@ -69,10 +66,6 @@ const errorInputs = (pseudo, comment, box) => {
   return true;
 };
 
-// ****************************************** //
-// ********** Ajout de commentaire ********* //
-// **************************************** //
-
 // boite ajout commentaire
 const addComment = document.createElement("div");
 addComment.classList.add("add-comment-box");
@@ -88,8 +81,8 @@ addComment.innerHTML = `
 sectionComment.appendChild(addComment);
 
 // ajustement boite commentaire selon la longueur du texte
-const ajoutCommentText = document.querySelector(".input-comment");
-ajoutCommentText.addEventListener("input", function () {
+const addCommentText = document.querySelector(".input-comment");
+addCommentText.addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = this.scrollHeight + "px";
 });
@@ -112,13 +105,8 @@ buttonCancelComment.addEventListener("click", () => {
   buttonCancelComment.style.display = "none";
 });
 
-// ****************************************** //
-// ******* Affichage de commentaires ******* //
-// **************************************** //
-
 const sectionReview = document.createElement("div");
 sectionReview.classList.add("all-reviews");
-
 // créer la boite pour chaque commentaire
 const createCommentBox = (name, comment, date, id_comment) => {
   const reviewBox = document.createElement("div");
@@ -144,8 +132,6 @@ const createCommentBox = (name, comment, date, id_comment) => {
 
 // recupere les infos commentaires
 async function getReviews(id, type) {
-  //   sectionReview.innerHTML = "";
-  // récupération commentaires
   const totalComment = [];
 
   // manual commentaires
@@ -178,7 +164,7 @@ async function getReviews(id, type) {
   pageNumberButtons(totalComment);
 }
 
-// créer 5 boites de commentaire par page
+// affichage de 5 commentaires par page
 const pageComments = (comments, page) => {
   sectionReview.innerHTML = "";
 
@@ -199,6 +185,7 @@ const pageComments = (comments, page) => {
   });
 };
 
+// pagination boutons
 const pageNumberButtons = (totalComments) => {
   const pagesBox = document.createElement("div");
   pagesBox.classList.add("pages-box");
@@ -289,7 +276,6 @@ if (buttonAddComment) {
       commentsList.push(objectComment);
       localStorage.setItem("comments", JSON.stringify(commentsList));
 
-      // Réinitialisation des champs
       inputPseudo.value = "";
       inputComment.value = "";
 
@@ -303,10 +289,6 @@ if (buttonAddComment) {
     }
   });
 }
-
-// ****************************************** //
-// ******* Repondre a un commentaire ******* //
-// **************************************** //
 
 // créer la boite pour chaque réponse
 const createReplyCommentBox = (name, comment, date, box) => {
@@ -323,12 +305,13 @@ const createReplyCommentBox = (name, comment, date, box) => {
   box.appendChild(reviewBox);
 };
 
-// show more
+// gestion Voir plus / voir moins pour les reponses de commentaire
 const displayShowMore = (id, totalReply, box) => {
   if (maxReply < totalReply) {
     const divShowMore = document.createElement("div");
     divShowMore.classList.add("show-more-box");
 
+    // voir plus
     const showMore = document.createElement("p");
     showMore.classList.add("show-more");
     showMore.innerText = `${totalReply} réponses - Voir plus...`;
@@ -345,8 +328,9 @@ const displayShowMore = (id, totalReply, box) => {
           createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
         });
       divShowMore.innerHTML = "";
+
+      // voir moins
       const showLess = document.createElement("a");
-      // showLess.setAttribute("href");
       showLess.classList.add("show-less");
       showLess.innerText = `Voir moins...`;
       divShowMore.appendChild(showLess);
@@ -407,7 +391,7 @@ const replyForm = (id) => {
         <p class="error"></p>
         `;
 
-  // evenement bouton ajout reponse
+  // événement bouton ajout reponse
   const buttonAdd = addReply.querySelector(".add-reply-button");
   buttonAdd.addEventListener("click", () => {
     const inputPseudo = document.querySelector(".reply-pseudo");
@@ -440,7 +424,7 @@ const replyForm = (id) => {
     }
   });
 
-  // evenement bouton annuler
+  // événement bouton annuler
   const buttonCancel = addReply.querySelector(".cancel-reply-button");
   buttonCancel.addEventListener("click", () => {
     addReply.remove();
@@ -454,6 +438,12 @@ const replyForm = (id) => {
       box.appendChild(addReply);
       console.log(box);
     }
+  });
+
+  const addReplyText = document.querySelector(".reply-comment");
+  addReplyText.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
   });
 };
 
