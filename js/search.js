@@ -49,6 +49,5 @@ async function getSearch(searchBar) {
 
 inputSearch.addEventListener("input", (e) => {
   let searchBar = encodeURIComponent(e.target.value);
-  console.log(searchBar);
   getSearch(searchBar);
 });
