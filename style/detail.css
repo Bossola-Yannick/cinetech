@@ -92,7 +92,7 @@
 }
 .error,
 .error-reply {
-  height: 2rem;
+  padding: 0.5rem 0;
   text-align: center;
 }
 
@@ -338,7 +338,7 @@
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
-  color: black;
+  color: #F3F0F0;
 }
 
 .pages-box .active-page {
@@ -373,6 +373,9 @@
 }
 
 @media screen and (max-width: 500px) {
+  .add-comment-box {
+    gap: 0.5rem;
+  }
 
   .review-text {
     padding: 1rem;
