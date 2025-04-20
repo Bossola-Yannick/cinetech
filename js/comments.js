@@ -123,6 +123,7 @@ sectionReview.classList.add("all-reviews");
 const createCommentBox = (name, comment, date, id_comment) => {
   const reviewBox = document.createElement("div");
   reviewBox.classList.add("review-box");
+  reviewBox.setAttribute("value", id_comment);
   reviewBox.innerHTML = `
     <div class="review-text">
         <div class="title-comment">
@@ -322,44 +323,71 @@ const createReplyCommentBox = (name, comment, date, box) => {
   box.appendChild(reviewBox);
 };
 
+// show more
+const displayShowMore = (id, totalReply, box) => {
+  if (maxReply < totalReply) {
+    const divShowMore = document.createElement("div");
+    divShowMore.classList.add("show-more-box");
+
+    const showMore = document.createElement("p");
+    showMore.classList.add("show-more");
+    showMore.innerText = `${totalReply} réponses - Voir plus...`;
+
+    divShowMore.appendChild(showMore);
+    box.appendChild(divShowMore);
+
+    showMore.addEventListener("click", () => {
+      box.innerHTML = "";
+      replyList
+        .filter((reply) => reply.reply_to === id)
+        .slice(0, totalReply)
+        .forEach((reply) => {
+          createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
+        });
+      divShowMore.innerHTML = "";
+      const showLess = document.createElement("a");
+      // showLess.setAttribute("href");
+      showLess.classList.add("show-less");
+      showLess.innerText = `Voir moins...`;
+      divShowMore.appendChild(showLess);
+      box.appendChild(divShowMore);
+
+      showLess.addEventListener("click", () => {
+        const commentElement = document.querySelector(
+          `.review-box[value="${id}"]`
+        );
+
+        if (commentElement) {
+          commentElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        getReplyComments(id);
+      });
+    });
+  }
+};
+
 // recupere les reponses du commentaire
-const getReplyComments = (id) => {
+const getReplyComments = (id, showAllReply = false) => {
   const reviewReply = document.querySelectorAll(".review-reply");
   reviewReply.forEach((box) => {
     let checkId = box.getAttribute("value");
     if (checkId === id) {
       box.innerHTML = "";
 
-      const startReplyIndex = (pageReply - 1) * maxReply;
-      const endReplyIndex = maxReply + startReplyIndex;
-
-      replyList
+      const repliesToShow = replyList
         .filter((reply) => reply.reply_to === id)
-        .slice(0, endReplyIndex)
-        .forEach((reply) => {
-          createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
-        });
+        .slice(0, showAllReply ? replyList.length : maxReply);
 
-      // gestion voir plus
+      repliesToShow.forEach((reply) => {
+        createReplyCommentBox(reply.pseudo, reply.comment, reply.date, box);
+      });
+
       const totalReply = replyList.filter(
         (reply) => reply.reply_to === id
       ).length;
 
-      if (endReplyIndex < totalReply) {
-        const divShowMore = document.createElement("div");
-        divShowMore.classList.add("show-more-box");
-
-        const showMore = document.createElement("p");
-        showMore.classList.add("show-more");
-        showMore.innerText = "Voir plus...";
-
-        showMore.addEventListener("click", () => {
-          pageReply++;
-          getReplyComments(id);
-        });
-
-        divShowMore.appendChild(showMore);
-        box.appendChild(divShowMore);
+      if (!showAllReply) {
+        displayShowMore(id, totalReply, box);
       }
     }
   });
@@ -406,7 +434,7 @@ const replyForm = (id) => {
       inputComment.value = "";
 
       // recup des reponses du commentaire
-      getReplyComments(id);
+      getReplyComments(id, true);
 
       addReply.remove();
     }
