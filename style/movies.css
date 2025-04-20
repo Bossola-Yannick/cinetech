@@ -20,8 +20,6 @@
 .paging {
   height: 100%;
   display: block;
-  /* padding: 0.6rem; */
-  /* margin-inline: 0.6rem; */
   text-decoration: none;
   color: rgb(243, 240, 240);
   font-weight: 700;
@@ -41,4 +39,10 @@
   font-weight: 700;
   padding-block: 2rem;
   color: azure;
+}
+
+@media screen and (max-width: 400px) {
+  #paging {
+    width: 90%;
+  }
 }
