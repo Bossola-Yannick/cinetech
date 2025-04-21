@@ -186,6 +186,12 @@ const pageComments = (comments, page) => {
   });
 };
 
+const scrollToComments = () => {
+  if (sectionComment) {
+    sectionComment.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
 // pagination boutons
 const pageNumberButtons = (totalComments) => {
   const pagesBox = document.createElement("div");
@@ -195,7 +201,7 @@ const pageNumberButtons = (totalComments) => {
 
   // bouton précédent
   const prevButton = document.createElement("a");
-  prevButton.setAttribute("href", "#comment-title");
+
   prevButton.classList.add("previous-next");
   prevButton.innerText = "Précédent";
   currentPage === 1
@@ -204,8 +210,10 @@ const pageNumberButtons = (totalComments) => {
   prevButton.addEventListener("click", () => {
     if (currentPage > 1) {
       currentPage--;
+      prevButton.setAttribute("href", `#${currentPage}`);
       pageComments(totalComments, currentPage);
       pageNumberButtons(totalComments);
+      scrollToComments();
     }
   });
   pagesBox.appendChild(prevButton);
@@ -213,7 +221,6 @@ const pageNumberButtons = (totalComments) => {
   // numéro pages
   for (let page = 1; page <= totalPages; page++) {
     const pageNumberP = document.createElement("a");
-    pageNumberP.setAttribute("href", "#comment-title");
     pageNumberP.classList.add("page-number");
     pageNumberP.innerText = page;
 
@@ -227,14 +234,15 @@ const pageNumberButtons = (totalComments) => {
 
     pageNumberP.addEventListener("click", () => {
       currentPage = page;
+      pageNumberP.setAttribute("href", `#${currentPage}`);
       pageComments(totalComments, currentPage);
       pageNumberButtons(totalComments);
+      scrollToComments();
     });
   }
 
   // bouton suivant
   const nextButton = document.createElement("a");
-  nextButton.setAttribute("href", "#comment-title");
   nextButton.classList.add("previous-next");
   nextButton.innerText = "Suivant";
   currentPage === totalPages
@@ -243,8 +251,10 @@ const pageNumberButtons = (totalComments) => {
   nextButton.addEventListener("click", () => {
     if (currentPage >= 1) {
       currentPage++;
+      nextButton.setAttribute("href", `#${currentPage}`);
       pageComments(totalComments, currentPage);
       pageNumberButtons(totalComments);
+      scrollToComments();
     }
   });
   pagesBox.appendChild(nextButton);

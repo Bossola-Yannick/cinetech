@@ -353,8 +353,9 @@
   width: 90%;
   text-align: center;
 }
-.show-more {
-  color: rgba(253, 67, 67, 0.514);
+.show-more,
+.show-less {
+  color: rgb(255, 80, 80);
   cursor: pointer;
 }
 
