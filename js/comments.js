@@ -182,6 +182,7 @@ const pageComments = (comments, page) => {
     );
 
     getReplyComments(review.id || review.id_comment);
+    replyButtonEvent();
   });
 };
 
@@ -447,8 +448,8 @@ const replyForm = (id) => {
   });
 };
 
-// récupere les boutons repondre de chaque commentaires
-getReviews(detailClick.id, type).then(() => {
+// événement boutons répondre
+const replyButtonEvent = () => {
   const buttonReply = document.querySelectorAll(".reply-comment-button");
   buttonReply.forEach((button) => {
     button.addEventListener("click", () => {
@@ -456,4 +457,9 @@ getReviews(detailClick.id, type).then(() => {
       replyForm(idComment);
     });
   });
+};
+
+// récupere les boutons repondre de chaque commentaires
+getReviews(detailClick.id, type).then(() => {
+  replyButtonEvent();
 });
