@@ -64,7 +64,6 @@
 .favorite-image {
   width: 100%;
 }
-
 .tag-box {
   display: flex;
   justify-content: flex-start;
@@ -100,7 +99,6 @@
 #comment * {
   box-sizing: border-box;
 }
-
 
 #comment {
   width: 90%;
@@ -241,17 +239,16 @@
   color: rgb(255, 255, 255);
 }
 .cancel-comment-button:hover,
-.cancel-reply-button:hover { 
+.cancel-reply-button:hover {
   background-color: rgba(168, 12, 12, 0.753);
   color: rgb(255, 255, 255);
 }
 
 .reply-comment-button:hover {
   background-color: rgba(255, 255, 255, 0.281);
- }
+}
 
-
- /* -------- */
+/* -------- */
 /* boites  */
 /* ------ */
 
@@ -296,7 +293,7 @@
 }
 
 .date {
-  color: rgb(0, 0, 0);
+  color: #f9d88b;
   font-size: 0.9rem;
 }
 
@@ -321,7 +318,7 @@
 /* pagination */
 
 .pages-box {
- width: 100%;
+  width: 100%;
   height: fit-content;
   display: flex;
   justify-content: center;
@@ -329,7 +326,6 @@
   align-items: baseline;
   text-align: center;
   gap: 2rem;
-  
 }
 
 .pages-box a {
@@ -338,7 +334,7 @@
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
-  color: #F3F0F0;
+  color: #f3f0f0;
 }
 
 .pages-box .active-page {
@@ -392,5 +388,31 @@
 
   .all-reviews {
     gap: 0.5rem;
+  }
+  .container {
+    flex-direction: column;
+  }
+  .container-poster {
+    width: 100%;
+  }
+  .container-detail {
+    width: 100%;
+    padding: 0;
+  }
+  .container-favorite-note {
+    flex-direction: column;
+  }
+  .similar-box {
+    flex-direction: column;
+  }
+  .similar {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 95%;
   }
 }

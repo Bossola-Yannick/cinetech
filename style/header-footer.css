@@ -50,7 +50,7 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-  color: rgb(128, 128, 128);
+  color: rgb(240, 237, 237);
   font-size: 2rem;
   text-decoration: none;
   align-content: center;
@@ -76,7 +76,7 @@ body {
 }
 
 .burger-menu {
-  background-color: rgba(230, 224, 224, 0.74);
+  background-color: rgba(22, 22, 22, 0.705);
   position: absolute;
   backdrop-filter: blur(3px);
 }
@@ -164,7 +164,7 @@ footer {
     z-index: 10;
   }
   .nav-bar-item a {
-    color: rgb(43, 43, 43);
+    color: rgb(238, 234, 234);
     font-size: 3rem;
     font-weight: bold;
     z-index: 10;
