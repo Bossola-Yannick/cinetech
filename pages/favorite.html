@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/logo-myCinetech.png" />
+    <title>My Cinetech</title>
+    <link rel="stylesheet" href="../style/reset.css" />
+    <link rel="stylesheet" href="../style/style.css" />
+    <link rel="stylesheet" href="../style/header-footer.css" />
+    <link rel="stylesheet" href="../style/card.css" />
+    <link rel="stylesheet" href="../style/movies.css" />
+    <!--* Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../js/router.js" defer></script>
+    <script src="../js/card.js" defer></script>
+    <script src="../js/favorite.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/detailFunction.js" defer></script>
+    <script src="../js/nav-bar.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div id="header-bar" class="header-bar">
+        <div id="container-logo">
+          <a href="../index.html">
+            <img
+              src="../assets/img/logo-myCinetech.png"
+              alt="logo My Cinetech"
+              class="logo" />
+          </a>
+        </div>
+        <div id="container-nav">
+          <nav id="nav-bar">
+            <ul id="nav-bar-list">
+              <li class="nav-bar-item">
+                <a class="not-active" href="../index.html">Accueil</a>
+              </li>
+              <li class="nav-bar-item">
+                <a class="not-active" href="./moviesPage.html">Films</a>
+              </li>
+              <li class="nav-bar-item">
+                <a class="not-active" href="./seriesPage.html">Séries</a>
+              </li>
+              <li class="nav-bar-item">
+                <a class="active" href="./favorite.html">Favoris</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div id="burger" class="burger">
+          <img src="../assets/img/icon-burger.png" class="burger-logo" />
+        </div>
+      </div>
+      <div class="searchBarre">
+        <span class="glass"
+          ><img
+            src="../assets/img/glass.png"
+            class="glass-img"
+            alt="loupe de recherche"
+        /></span>
+        <input
+          type="text"
+          id="search"
+          class="search"
+          placeholder="Rechercher" />
+        <div class="search-result"></div>
+      </div>
+    </header>
+    <main>
+      <h2 class="movie-title">Vos Film Favoris</h2>
+      <section id="container-movies">
+        <!-- Insertion des Card ICI -->
+      </section>
+      <h2 class="movie-title">Vos Séries Favorites</h2>
+      <section id="container-series">
+        <!-- Insertion des Card ICI -->
+      </section>
+    </main>
+    <footer>
+      <h6 class="copyrigth">&#169; BY Orkblan and James</h6>
+    </footer>
+  </body>
+</html>

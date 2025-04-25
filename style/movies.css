@@ -1,0 +1,48 @@
+#container-movies,
+#container-series {
+  width: 90%;
+  margin: 0 auto;
+  padding-block: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+#paging {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+  margin: 0 auto;
+  height: 2rem;
+}
+.paging {
+  height: 100%;
+  display: block;
+  text-decoration: none;
+  color: rgb(243, 240, 240);
+  font-weight: 700;
+  align-content: center;
+}
+.paging:hover {
+  font-size: 1.3rem;
+}
+.active {
+  font-size: 1.3rem;
+  color: red;
+}
+.movie-title,
+.serie-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  padding-block: 2rem;
+  color: azure;
+}
+
+@media screen and (max-width: 400px) {
+  #paging {
+    width: 90%;
+  }
+}
